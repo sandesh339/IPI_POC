@@ -1,0 +1,434 @@
+/* Save functionality styles */
+
+/* Visualization buttons container */
+.visualization-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* Save button styles */
+.save-button {
+  background: linear-gradient(135deg, #4CAF50 0%, #45A049 100%) !important;
+  color: white !important;
+  border: none !important;
+  padding: 8px 16px !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  transition: all 0.3s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+}
+
+.save-button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #45A049 0%, #3D8B40 100%) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3) !important;
+}
+
+.save-button:disabled {
+  background: linear-gradient(135deg, #9E9E9E 0%, #757575 100%) !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Modal header with save button */
+.modal-header-buttons {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.save-modal-button {
+  background: linear-gradient(135deg, #4CAF50 0%, #45A049 100%);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.save-modal-button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #45A049 0%, #3D8B40 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+}
+
+.save-modal-button:disabled {
+  background: linear-gradient(135deg, #9E9E9E 0%, #757575 100%);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Save status display */
+.save-status {
+  padding: 12px 16px;
+  margin: 10px 0;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  animation: slideIn 0.3s ease-out;
+}
+
+.save-status.success {
+  background: linear-gradient(135deg, #E8F5E8 0%, #C8E6C9 100%);
+  color: #2E7D32;
+  border: 1px solid #A5D6A7;
+}
+
+.save-status.error {
+  background: linear-gradient(135deg, #FFEBEE 0%, #FFCDD2 100%);
+  color: #C62828;
+  border: 1px solid #EF9A9A;
+}
+
+.save-status-icon {
+  font-size: 16px;
+}
+
+.save-status-message {
+  flex: 1;
+}
+
+/* Global save status (outside modal) */
+.global-save-status {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10000;
+  padding: 12px 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  animation: slideInRight 0.3s ease-out;
+  max-width: 350px;
+}
+
+.global-save-status.success {
+  background: linear-gradient(135deg, #E8F5E8 0%, #C8E6C9 100%);
+  color: #2E7D32;
+  border: 1px solid #A5D6A7;
+}
+
+.global-save-status.error {
+  background: linear-gradient(135deg, #FFEBEE 0%, #FFCDD2 100%);
+  color: #C62828;
+  border: 1px solid #EF9A9A;
+}
+
+/* Animations */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Visualization container for clean image capture */
+.visualization-container {
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+  min-height: 70vh;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Modal content areas styling for clean saves */
+.modal-chart-content,
+.modal-map-content {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 0;
+  min-height: 70vh;
+  height: auto;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Chart containers for multiple charts */
+.modal-chart-content .charts-container,
+.modal-chart-content .chart-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  background: #ffffff;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+/* Individual chart containers */
+.modal-chart-content .chart-container {
+  background: #ffffff;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  margin-bottom: 10px;
+}
+
+/* Ensure canvas elements are visible */
+.modal-chart-content canvas,
+.modal-map-content canvas {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Ensure all visualization elements are visible for capture */
+.modal-chart-content .legend,
+.modal-map-content .legend,
+.modal-chart-content .chart-title,
+.modal-map-content .map-title,
+.modal-chart-content .map-legend,
+.modal-map-content .map-legend,
+.modal-chart-content .mapbox-legend,
+.modal-map-content .mapbox-legend,
+.modal-chart-content .mapboxgl-ctrl,
+.modal-map-content .mapboxgl-ctrl {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* Ensure legends are positioned within the capture area */
+.modal-map-content .mapboxgl-ctrl-top-right,
+.modal-map-content .mapboxgl-ctrl-top-left,
+.modal-map-content .mapboxgl-ctrl-bottom-right,
+.modal-map-content .mapboxgl-ctrl-bottom-left {
+  position: absolute !important;
+  z-index: 10 !important;
+}
+
+/* Style the modal content for better capture */
+.modal-chart-content,
+.modal-map-content {
+  position: relative;
+  overflow: visible;
+  box-shadow: none;
+  border: none;
+}
+
+/* Ensure map containers are properly sized */
+.modal-map-content .mapboxgl-map,
+.modal-map-content .map-container {
+  position: relative !important;
+  width: 100% !important;
+  height: 70vh !important;
+  min-height: 600px !important;
+  flex: 1 !important;
+}
+
+/* Modal header layout */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid #e8d5b7;
+  background: linear-gradient(135deg, #faf9f7 0%, #f5f3f0 100%);
+}
+
+.modal-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Save button styles */
+.modal-save-button {
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 4px rgba(40, 167, 69, 0.2);
+  margin-right: 12px;
+}
+
+.modal-save-button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #218838 0%, #1e7e34 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+}
+
+.modal-save-button:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(40, 167, 69, 0.2);
+}
+
+.modal-save-button:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+}
+
+/* Save status message */
+.save-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  margin-right: 16px;
+}
+
+.save-status.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  animation: fadeIn 0.3s ease-in-out, pulse 0.5s ease-in-out 0.3s;
+}
+
+.save-status.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Spinner for loading state */
+.spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #ffffff;
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Close button styles */
+.modal-close-button {
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(220, 53, 69, 0.2);
+}
+
+.modal-close-button:hover {
+  background: linear-gradient(135deg, #c82333 0%, #bd2130 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+}
+
+.modal-close-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(220, 53, 69, 0.2);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .modal-header {
+    flex-direction: column;
+    gap: 16px;
+    align-items: stretch;
+  }
+  
+  .modal-header-actions {
+    justify-content: space-between;
+  }
+  
+  .save-status {
+    max-width: 200px;
+    font-size: 12px;
+  }
+  
+  .modal-save-button,
+  .modal-close-button {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+} 
