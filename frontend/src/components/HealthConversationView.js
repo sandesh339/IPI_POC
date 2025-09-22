@@ -193,7 +193,7 @@ export default function HealthConversationView({ onNavigateToHome }) {
     setIsLoading(true);
 
     try {
-      const res = await fetch("http://127.0.0.1:8000/chatbot/", {
+      const res = await fetch("https://ipi-poc.onrender.com/chatbot/", {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",
@@ -403,7 +403,7 @@ export default function HealthConversationView({ onNavigateToHome }) {
 
     // Send feedback to backend (optional)
     try {
-      await fetch("http://127.0.0.1:8000/feedback/", {
+      await fetch("https://ipi-poc.onrender.com/feedback/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -3175,3 +3175,4 @@ export default function HealthConversationView({ onNavigateToHome }) {
     </div>
   );
 }
+
