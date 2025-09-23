@@ -61,7 +61,57 @@ export default function AboutPage({ onNavigateToHome }) {
           </div>
         </section>
 
-        
+         {/* Example Queries Section */}
+        <section className="examples-section">
+          <h3 className="section-title">Example Queries</h3>
+          <p className="examples-description">
+            Here are some example questions you can ask our AI-powered health analytics chatbot:
+          </p>
+          <div className="examples-grid">
+            <div className="example-card">
+              <div className="example-icon">🗺️</div>
+              <div className="example-content">
+                <h4>Geographical Constraints based Analysis</h4>
+                <p className="example-query">"Show me districts within 50 km of Delhi and their Anemia prevalence"</p>
+              </div>
+            </div>
+            <div className="example-card">
+              <div className="example-icon">🗺️</div>
+              <div className="example-content">
+                <h4>Border Districts Analysis</h4>
+                <p className="example-query">"Tell me the districts bordering West Bengal and their perfromance on Institutional Chinldbirth."</p>
+              </div>
+            </div>
+            <div className="example-card">
+              <div className="example-icon">🔍</div>
+              <div className="example-content">
+                <h4>Constraints based Analysis</h4>
+                <p className="example-query">"Tell me the districts with malnutrition greater than 30 and vaccination less than 50."</p>
+              </div>
+            </div>
+            <div className="example-card">
+              <div className="example-icon">🍎</div>
+              <div className="example-content">
+                <h4>Nutrition & Wellness</h4>
+                <p className="example-query">"Show malnutrition trends in Uttar Pradesh from 2016 to 2021"</p>
+              </div>
+            </div>
+            <div className="example-card">
+              <div className="example-icon">📈</div>
+              <div className="example-content">
+                <h4>Health Trends</h4>
+                <p className="example-query">"What are the top 10 districts with improving diabetes prevalence?"</p>
+              </div>
+            </div>
+            <div className="example-card">
+              <div className="example-icon">🗺️</div>
+              <div className="example-content">
+                <h4>Geographic Classification</h4>
+                <p className="example-query">"Create a map showing diabetes prevalence in Uttar Pradesh."</p>
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* Features Section */}
         <section className="features-section">
@@ -106,3 +156,4 @@ export default function AboutPage({ onNavigateToHome }) {
     </div>
   );
 }
+
