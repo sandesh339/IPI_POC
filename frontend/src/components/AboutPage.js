@@ -26,6 +26,7 @@ export default function AboutPage({ onNavigateToHome }) {
                 health and development data that strengthens policy discussion and 
                 action, helping to prioritize areas for intervention and improve the 
                 quality of life for India's people and communities.
+                <a href="https://geographicinsights.iq.harvard.edu/india">India Policy Insight's Website</a>
               </p>
               <div className="hero-cta">
                 
@@ -156,4 +157,5 @@ export default function AboutPage({ onNavigateToHome }) {
     </div>
   );
 }
+
 
