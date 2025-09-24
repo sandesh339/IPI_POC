@@ -63,7 +63,7 @@ const HomePage = ({ onNavigateToChat, onNavigateToAbout }) => {
           <div className="hero-banner-content">
             <h1 className="hero-banner-title">Ask IPI</h1>
             <p className="hero-banner-subtitle">
-              Comprehensive Health Indicators Analysis for Indian Districts
+              Comprehensive Analysis for Population Health and Social Determinants of Health Indicators in Indian Districts
             </p>
           </div>
         </div>
@@ -91,8 +91,8 @@ const HomePage = ({ onNavigateToChat, onNavigateToAbout }) => {
               
               <div className="description-container">
                 <p className="main-description">
-                  Analyze health indicator performance, create interactive visualizations, 
-                  and discover insights from 2016 and 2021 health survey data.
+                  Analyze indicator performance, create interactive visualizations, 
+                  and discover insights from 2016 and 2021 National Family Health Survey (NFHS) data.
                 </p>
                 
                 <div className="features-grid">
@@ -115,8 +115,8 @@ const HomePage = ({ onNavigateToChat, onNavigateToAbout }) => {
                   <div className="feature-item">
                     <div className="feature-icon">🏥</div>
                     <div className="feature-text">
-                      <h3>Health Analytics</h3>
-                      <p>Comprehensive health indicator analysis</p>
+                      <h3>IPI Analytics</h3>
+                      <p>Comprehensive indicator analysis</p>
                     </div>
                   </div>
                 </div>
@@ -132,3 +132,4 @@ const HomePage = ({ onNavigateToChat, onNavigateToAbout }) => {
 };
 
 export default HomePage;
+
