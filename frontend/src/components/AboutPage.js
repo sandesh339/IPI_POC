@@ -56,7 +56,7 @@ export default function AboutPage({ onNavigateToHome }) {
             </div>
             <div className="mission-overlay">
               <h3 className="mission-title">
-                The current chatbot helps to democratize the health and development data collected at the district level in India, through the natural language query.
+                The current chatbot helps to democratize the National Family Health Survey (NFHS) data collected at the district level in India, through the natural language query.
               </h3>
             </div>
           </div>
@@ -121,7 +121,7 @@ export default function AboutPage({ onNavigateToHome }) {
             <div className="feature-card">
               <div className="feature-icon">📊</div>
               <h4>Comprehensive Data Analysis</h4>
-              <p>Access to 722 Districts with 122 Health Indicators covering 2016-2021 data</p>
+              <p>Access to 722 Districts with 122 Indicators covering 2016-2021 data</p>
             </div>
             <div className="feature-card">
               <div className="feature-icon">🗺️</div>
@@ -131,7 +131,7 @@ export default function AboutPage({ onNavigateToHome }) {
             <div className="feature-card">
               <div className="feature-icon">🔍</div>
               <h4>District Insights</h4>
-              <p>Deep dive into specific districts to understand local health challenges and opportunities</p>
+              <p>Deep dive into specific districts to understand local challenges and opportunities</p>
             </div>
             <div className="feature-card">
               <div className="feature-icon">🤖</div>
@@ -145,7 +145,7 @@ export default function AboutPage({ onNavigateToHome }) {
         <section className="cta-section">
           <div className="cta-content">
             <h3>Ready to Explore Health Data?</h3>
-            <p>Start analyzing India's health indicators with our interactive platform</p>
+            <p>Start analyzing India's Population and Social Determinants of Health Indicators with our interactive platform</p>
             <button onClick={onNavigateToHome} className="cta-button-large">
               Access Health Analytics →
             </button>
@@ -157,5 +157,6 @@ export default function AboutPage({ onNavigateToHome }) {
     </div>
   );
 }
+
 
 
