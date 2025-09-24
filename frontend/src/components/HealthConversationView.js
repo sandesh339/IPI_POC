@@ -2210,7 +2210,7 @@ export default function HealthConversationView({ onNavigateToHome }) {
           WebkitTextFillColor: "transparent",
           backgroundClip: "text"
         }}>
-          🏥 Health Analytics
+          🏥 Ask IPI
         </h1>
         <p style={{
           margin: "10px 0 0 0",
@@ -2218,7 +2218,7 @@ export default function HealthConversationView({ onNavigateToHome }) {
           color: "#2E7D32",
           fontWeight: "400"
         }}>
-          Conversational Analytics on India's Health Indicators Data
+          Conversational Analytics on Population Health and Social Determinants of Health Indicators for Districts in India
         </p>
         {/* Home Button */}
         {onNavigateToHome && (
@@ -2349,7 +2349,7 @@ export default function HealthConversationView({ onNavigateToHome }) {
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent"
               }}>
-                Health Analytics Assistant
+                IPI Assistant
               </div>
               <div style={{
                 fontSize: "1.25rem",
@@ -3175,4 +3175,5 @@ export default function HealthConversationView({ onNavigateToHome }) {
     </div>
   );
 }
+
 
