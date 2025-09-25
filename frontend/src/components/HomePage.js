@@ -13,8 +13,7 @@ const HomePage = ({ onNavigateToChat, onNavigateToAbout }) => {
         <div className="university-logos">
           <div className="logo-container harvard-logo">
             <img 
-              src="/images/Harvard-Logo.png" 
-              alt="Harvard University" 
+              
               className="university-logo"
               onError={(e) => {
                 e.target.style.display = 'none';
@@ -30,8 +29,7 @@ const HomePage = ({ onNavigateToChat, onNavigateToAbout }) => {
           
           <div className="logo-container vt-logo">
             <img 
-              src="/images/Virginia-Tech-Logo.png" 
-              alt="Virginia Tech" 
+              
               className="university-logo"
               onError={(e) => {
                 e.target.style.display = 'none';
@@ -132,4 +130,5 @@ const HomePage = ({ onNavigateToChat, onNavigateToAbout }) => {
 };
 
 export default HomePage;
+
 
