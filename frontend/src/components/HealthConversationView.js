@@ -8,7 +8,7 @@ import StateWiseExtremes from "./StateWiseExtremes";
 import MultiDistrictAnalysis from "./MultiDistrictAnalysis";
 import ConstraintBasedAnalysis from "./ConstraintBasedAnalysis";
 import TopBottomAnalysis from "./TopBottomAnalysis";
-// import IndicatorChangeAnalysis from "./IndicatorChangeAnalysis"; // Temporarily disabled to prevent interference with DistrictClassificationChange
+import IndicatorChangeAnalysis from "./IndicatorChangeAnalysis";
 import DistrictComparisonAnalysis from "./DistrictComparisonAnalysis";
 import MultiIndicatorPerformance from "./MultiIndicatorPerformance";
 import StateMultiIndicatorPerformance from "./StateMultiIndicatorPerformance";
@@ -193,7 +193,7 @@ export default function HealthConversationView({ onNavigateToHome }) {
     setIsLoading(true);
 
     try {
-      const res = await fetch("https://ipi-poc.onrender.com/chatbot/", {
+      const res = await fetch("http://127.0.0.1:8000/chatbot/", {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",
@@ -369,7 +369,7 @@ export default function HealthConversationView({ onNavigateToHome }) {
       const res = await fetch("https://api.openai.com/v1/audio/transcriptions", {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+          Authorization: `Bearer ${process.env.OPENAI_API_KEY}`
         },
         body: formData,
       });
@@ -403,7 +403,7 @@ export default function HealthConversationView({ onNavigateToHome }) {
 
     // Send feedback to backend (optional)
     try {
-      await fetch("https://ipi-poc.onrender.com/feedback/", {
+      await fetch("http://127.0.0.1:8000/feedback/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -2323,40 +2323,56 @@ export default function HealthConversationView({ onNavigateToHome }) {
       </div>
 
       {/* Conversation Container */}
-      <div className="conversation-container" ref={chatContainerRef}>
+      <div 
+        className="conversation-container" 
+        ref={chatContainerRef}
+        style={messages.length === 0 ? {
+          minHeight: "auto", // Let content determine height
+          display: "flex",
+          flexDirection: "column",
+          flex: "1"
+        } : {}}
+      >
         {/* Centered Welcome Section for Empty State */}
         {messages.length === 0 && (
           <div style={{
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            justifyContent: "center",
-            minHeight: "40vh",
-            padding: "2rem",
+            justifyContent: "flex-start",
+            minHeight: "20vh",
+            padding: "clamp(1rem, 3vw, 2rem) 1rem",
             textAlign: "center",
-            paddingTop: "10vh"
+            paddingTop: "clamp(2rem, 5vh, 4rem)",
+            paddingBottom: "clamp(1rem, 3vh, 2rem)"
           }}>
             <div style={{
-              marginBottom: "6rem"
+              marginBottom: "clamp(1.5rem, 4vh, 3rem)",
+              width: "100%",
+              maxWidth: "800px"
             }}>
               <div style={{
-                fontSize: "3rem",
+                fontSize: "clamp(1.8rem, 4vw, 3rem)",
                 fontWeight: "800",
                 color: "#2E7D32",
-                marginBottom: "1rem",
+                marginBottom: "clamp(0.5rem, 2vh, 1rem)",
                 background: "linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%)",
                 backgroundClip: "text",
                 WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent"
+                WebkitTextFillColor: "transparent",
+                lineHeight: "1.2"
               }}>
                 IPI Assistant
               </div>
               <div style={{
-                fontSize: "1.25rem",
+                fontSize: "clamp(0.9rem, 2.5vw, 1.25rem)",
                 color: "#666",
-                fontWeight: "500"
+                fontWeight: "500",
+                maxWidth: "100%",
+                lineHeight: "1.4",
+                margin: "0 auto"
               }}>
-                Ask me anything about India's health indicators and district data
+                Ask me anything about IPI indicators and district data
               </div>
             </div>
           </div>
@@ -2711,8 +2727,19 @@ export default function HealthConversationView({ onNavigateToHome }) {
         )}
       </div>
 
-      {/* Input Section - Centered when empty, bottom when messages exist */}
-      <div className={messages.length === 0 ? "chat-input-section-centered" : "chat-input-section"}>
+      {/* Input Section - Always visible below Ask IPI when no messages */}
+      <div 
+        className={messages.length === 0 ? "chat-input-section-centered" : "chat-input-section"}
+        style={messages.length === 0 ? {
+          position: "relative !important",
+          display: "block !important",
+          marginTop: "clamp(1rem, 3vh, 2rem)",
+          marginBottom: "40px", // Space for bottom warning box
+          zIndex: 10,
+          width: "100%",
+          visibility: "visible"
+        } : {}}
+      >
         <div className="chat-input-wrapper">
           <div className="chat-input-container">
             <textarea
@@ -2800,10 +2827,342 @@ export default function HealthConversationView({ onNavigateToHome }) {
             fontWeight: "500",
             letterSpacing: "0.5px"
           }}>
-            🏥 AI-powered health data analysis • 📊 Interactive maps • 🔍 District insights
+            🏥 AI-powered health analysis • 📊 Interactive maps • 🔍 District insights
           </div>
         </div>
+
       </div>
+
+      {/* Fixed Warning and Example Queries Box at Bottom - Only show when no messages */}
+      {messages.length === 0 && (
+        <div style={{
+          position: "fixed",
+          bottom: "0",
+          left: "0",
+          right: "0",
+          background: "linear-gradient(135deg, #fff8e1 0%, #f3e5ab 100%)",
+          border: "1px solid #ffa000",
+          borderBottom: "none",
+          borderRadius: "12px 12px 0 0",
+          padding: "clamp(16px, 3vw, 24px)",
+          fontSize: "clamp(12px, 2.5vw, 14px)",
+          lineHeight: "1.6",
+          zIndex: 100,
+          maxHeight: "40vh",
+          overflowY: "auto",
+          boxShadow: "0 -4px 20px rgba(255, 160, 0, 0.2)"
+        }}>
+          {/* Warning Section */}
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+            marginBottom: "16px",
+            color: "#e65100",
+            fontWeight: "600",
+            flexWrap: "wrap"
+          }}>
+            <span style={{ fontSize: "clamp(16px, 3vw, 18px)", flexShrink: 0 }}>⚠️</span>
+            <span style={{ fontSize: "clamp(16px, 2.5vw, 14px)" }}>
+              Please note: The system may take some time to load and process your first query as the system is built on free resources.
+            </span>
+          </div>
+
+          {/* Example Queries Section */}
+          <div>
+            <div style={{
+              color: "#2E7D32",
+              fontWeight: "600",
+              marginBottom: "12px",
+              fontSize: "clamp(13px, 2.8vw, 15px)"
+            }}>
+              💡 Here are some example questions you can ask our chatbot:
+            </div>
+            
+            <div style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+              gap: "12px"
+            }}>
+              {/* Geographical Constraints based Analysis */}
+              <div style={{
+                background: "rgba(255, 255, 255, 0.7)",
+                borderRadius: "8px",
+                padding: "clamp(8px, 2vw, 12px)",
+                border: "1px solid rgba(46, 125, 50, 0.2)",
+                cursor: "pointer",
+                transition: "all 0.2s ease",
+                minHeight: "fit-content"
+              }}
+              onClick={() => setQuery("Show me districts within 50 km of Delhi and their Anemia prevalence")}
+              onMouseEnter={(e) => {
+                e.target.style.background = "rgba(255, 255, 255, 0.9)";
+                e.target.style.transform = "translateY(-2px)";
+                e.target.style.boxShadow = "0 4px 12px rgba(25, 118, 210, 0.15)";
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.background = "rgba(255, 255, 255, 0.7)";
+                e.target.style.transform = "translateY(0)";
+                e.target.style.boxShadow = "none";
+              }}
+              >
+                <div style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  marginBottom: "6px",
+                  color: "#1976D2",
+                  fontWeight: "600",
+                  fontSize: "clamp(11px, 2.2vw, 13px)",
+                  flexWrap: "wrap"
+                }}>
+                  <span style={{ fontSize: "clamp(12px, 2.5vw, 14px)" }}>🗺️</span>
+                  <span style={{ lineHeight: "1.3" }}>Geographical Constraints based Analysis</span>
+                </div>
+                <div style={{
+                  fontStyle: "italic",
+                  color: "#555",
+                  fontSize: "clamp(11px, 2.2vw, 13px)",
+                  lineHeight: "1.4",
+                  wordBreak: "break-word"
+                }}>
+                  "Show me districts within 50 km of Delhi and their Anemia prevalence"
+                </div>
+              </div>
+
+              {/* Border Districts Analysis */}
+              <div style={{
+                background: "rgba(255, 255, 255, 0.7)",
+                borderRadius: "8px",
+                padding: "clamp(8px, 2vw, 12px)",
+                border: "1px solid rgba(46, 125, 50, 0.2)",
+                cursor: "pointer",
+                transition: "all 0.2s ease",
+                minHeight: "fit-content"
+              }}
+              onClick={() => setQuery("Tell me the districts bordering West Bengal and their performance on Institutional Childbirth.")}
+              onMouseEnter={(e) => {
+                e.target.style.background = "rgba(255, 255, 255, 0.9)";
+                e.target.style.transform = "translateY(-2px)";
+                e.target.style.boxShadow = "0 4px 12px rgba(25, 118, 210, 0.15)";
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.background = "rgba(255, 255, 255, 0.7)";
+                e.target.style.transform = "translateY(0)";
+                e.target.style.boxShadow = "none";
+              }}
+              >
+                <div style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  marginBottom: "6px",
+                  color: "#1976D2",
+                  fontWeight: "600",
+                  fontSize: "clamp(11px, 2.2vw, 13px)",
+                  flexWrap: "wrap"
+                }}>
+                  <span style={{ fontSize: "clamp(12px, 2.5vw, 14px)" }}>🗺️</span>
+                  <span style={{ lineHeight: "1.3" }}>Border Districts Analysis</span>
+                </div>
+                <div style={{
+                  fontStyle: "italic",
+                  color: "#555",
+                  fontSize: "clamp(11px, 2.2vw, 13px)",
+                  lineHeight: "1.4",
+                  wordBreak: "break-word"
+                }}>
+                  "Tell me the districts bordering West Bengal and their performance on Institutional Childbirth."
+                </div>
+              </div>
+
+              {/* Constraints based Analysis */}
+              <div style={{
+                background: "rgba(255, 255, 255, 0.7)",
+                borderRadius: "8px",
+                padding: "clamp(8px, 2vw, 12px)",
+                border: "1px solid rgba(46, 125, 50, 0.2)",
+                cursor: "pointer",
+                transition: "all 0.2s ease",
+                minHeight: "fit-content"
+              }}
+              onClick={() => setQuery("Tell me the districts with malnutrition greater than 30 and vaccination less than 50.")}
+              onMouseEnter={(e) => {
+                e.target.style.background = "rgba(255, 255, 255, 0.9)";
+                e.target.style.transform = "translateY(-2px)";
+                e.target.style.boxShadow = "0 4px 12px rgba(156, 39, 176, 0.15)";
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.background = "rgba(255, 255, 255, 0.7)";
+                e.target.style.transform = "translateY(0)";
+                e.target.style.boxShadow = "none";
+              }}
+              >
+                <div style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  marginBottom: "6px",
+                  color: "#9C27B0",
+                  fontWeight: "600",
+                  fontSize: "clamp(11px, 2.2vw, 13px)",
+                  flexWrap: "wrap"
+                }}>
+                  <span style={{ fontSize: "clamp(12px, 2.5vw, 14px)" }}>🔍</span>
+                  <span style={{ lineHeight: "1.3" }}>Constraints based Analysis</span>
+                </div>
+                <div style={{
+                  fontStyle: "italic",
+                  color: "#555",
+                  fontSize: "clamp(11px, 2.2vw, 13px)",
+                  lineHeight: "1.4",
+                  wordBreak: "break-word"
+                }}>
+                  "Tell me the districts with malnutrition greater than 30 and vaccination less than 50."
+                </div>
+              </div>
+
+              {/* Nutrition & Wellness */}
+              <div style={{
+                background: "rgba(255, 255, 255, 0.7)",
+                borderRadius: "8px",
+                padding: "clamp(8px, 2vw, 12px)",
+                border: "1px solid rgba(46, 125, 50, 0.2)",
+                cursor: "pointer",
+                transition: "all 0.2s ease",
+                minHeight: "fit-content"
+              }}
+              onClick={() => setQuery("Show malnutrition trends in Uttar Pradesh from 2016 to 2021")}
+              onMouseEnter={(e) => {
+                e.target.style.background = "rgba(255, 255, 255, 0.9)";
+                e.target.style.transform = "translateY(-2px)";
+                e.target.style.boxShadow = "0 4px 12px rgba(233, 30, 99, 0.15)";
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.background = "rgba(255, 255, 255, 0.7)";
+                e.target.style.transform = "translateY(0)";
+                e.target.style.boxShadow = "none";
+              }}
+              >
+                <div style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  marginBottom: "6px",
+                  color: "#E91E63",
+                  fontWeight: "600",
+                  fontSize: "clamp(11px, 2.2vw, 13px)",
+                  flexWrap: "wrap"
+                }}>
+                  <span style={{ fontSize: "clamp(12px, 2.5vw, 14px)" }}>🍎</span>
+                  <span style={{ lineHeight: "1.3" }}>Nutrition & Wellness</span>
+                </div>
+                <div style={{
+                  fontStyle: "italic",
+                  color: "#555",
+                  fontSize: "clamp(11px, 2.2vw, 13px)",
+                  lineHeight: "1.4",
+                  wordBreak: "break-word"
+                }}>
+                  "Show malnutrition trends in Uttar Pradesh from 2016 to 2021"
+                </div>
+              </div>
+
+              {/* Health Trends */}
+              <div style={{
+                background: "rgba(255, 255, 255, 0.7)",
+                borderRadius: "8px",
+                padding: "clamp(8px, 2vw, 12px)",
+                border: "1px solid rgba(46, 125, 50, 0.2)",
+                cursor: "pointer",
+                transition: "all 0.2s ease",
+                minHeight: "fit-content"
+              }}
+              onClick={() => setQuery("What are the top 10 districts with improving diabetes prevalence?")}
+              onMouseEnter={(e) => {
+                e.target.style.background = "rgba(255, 255, 255, 0.9)";
+                e.target.style.transform = "translateY(-2px)";
+                e.target.style.boxShadow = "0 4px 12px rgba(255, 152, 0, 0.15)";
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.background = "rgba(255, 255, 255, 0.7)";
+                e.target.style.transform = "translateY(0)";
+                e.target.style.boxShadow = "none";
+              }}
+              >
+                <div style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  marginBottom: "6px",
+                  color: "#FF9800",
+                  fontWeight: "600",
+                  fontSize: "clamp(11px, 2.2vw, 13px)",
+                  flexWrap: "wrap"
+                }}>
+                  <span style={{ fontSize: "clamp(12px, 2.5vw, 14px)" }}>📈</span>
+                  <span style={{ lineHeight: "1.3" }}>Health Trends</span>
+                </div>
+                <div style={{
+                  fontStyle: "italic",
+                  color: "#555",
+                  fontSize: "clamp(11px, 2.2vw, 13px)",
+                  lineHeight: "1.4",
+                  wordBreak: "break-word"
+                }}>
+                  "What are the top 10 districts with improving diabetes prevalence?"
+                </div>
+              </div>
+
+              {/* Geographic Classification */}
+              <div style={{
+                background: "rgba(255, 255, 255, 0.7)",
+                borderRadius: "8px",
+                padding: "clamp(8px, 2vw, 12px)",
+                border: "1px solid rgba(46, 125, 50, 0.2)",
+                cursor: "pointer",
+                transition: "all 0.2s ease",
+                minHeight: "fit-content"
+              }}
+              onClick={() => setQuery("Create a map showing diabetes prevalence in Uttar Pradesh.")}
+              onMouseEnter={(e) => {
+                e.target.style.background = "rgba(255, 255, 255, 0.9)";
+                e.target.style.transform = "translateY(-2px)";
+                e.target.style.boxShadow = "0 4px 12px rgba(76, 175, 80, 0.15)";
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.background = "rgba(255, 255, 255, 0.7)";
+                e.target.style.transform = "translateY(0)";
+                e.target.style.boxShadow = "none";
+              }}
+              >
+                <div style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  marginBottom: "6px",
+                  color: "#4CAF50",
+                  fontWeight: "600",
+                  fontSize: "clamp(11px, 2.2vw, 13px)",
+                  flexWrap: "wrap"
+                }}>
+                  <span style={{ fontSize: "clamp(12px, 2.5vw, 14px)" }}>🗺️</span>
+                  <span style={{ lineHeight: "1.3" }}>Geographic Classification</span>
+                </div>
+                <div style={{
+                  fontStyle: "italic",
+                  color: "#555",
+                  fontSize: "clamp(11px, 2.2vw, 13px)",
+                  lineHeight: "1.4",
+                  wordBreak: "break-word"
+                }}>
+                  "Create a map showing diabetes prevalence in Uttar Pradesh."
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Modal Popup */}
       {modalOpen && modalData && (
@@ -3175,5 +3534,3 @@ export default function HealthConversationView({ onNavigateToHome }) {
     </div>
   );
 }
-
-
