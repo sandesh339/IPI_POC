@@ -25,7 +25,7 @@ ChartJS.register(
 const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN;
 
 export default function MultiDistrictAnalysis({ data = {}, chartOnly = false, mapOnly = false }) {
-  console.log('MultiDistrictAnalysis received data:', data);
+  
 
   const [viewState, setViewState] = useState({
     longitude: 78.96,
@@ -40,7 +40,7 @@ export default function MultiDistrictAnalysis({ data = {}, chartOnly = false, ma
       if (mapRef.current) {
         try {
           await initializeReactMapGLForCapture(mapRef, 'multi-district-map');
-          console.log('Multi-district map initialized for capture');
+          
         } catch (error) {
           console.error('Error initializing multi-district map:', error);
         }
@@ -483,3 +483,4 @@ export default function MultiDistrictAnalysis({ data = {}, chartOnly = false, ma
     </div>
   );
 }
+
