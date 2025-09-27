@@ -27,10 +27,10 @@ const MultiIndicatorPerformance = ({ data, mapOnly = false, chartOnly = false })
   // Process the data for easier access
   const performanceInfo = useMemo(() => {
     // Add comprehensive debugging
-    console.log('🔍 MultiIndicatorPerformance RAW DATA:', data);
+   
     
     if (!data) {
-      console.log('❌ No data provided');
+      console.log('No data provided');
       return {
         districts: [],
         totalDistricts: 0,
@@ -46,29 +46,22 @@ const MultiIndicatorPerformance = ({ data, mapOnly = false, chartOnly = false })
     let districts = [];
     let chartData = [];
     
-    console.log('🔍 Data structure analysis:', {
-      hasDistricts: !!data.districts,
-      hasChartData: !!data.chart_data,
-      hasData: !!data.data,
-      dataType: typeof data.data,
-      dataIsArray: Array.isArray(data.data),
-      keys: Object.keys(data)
-    });
+    
     
     // Path 1: Direct access
     if (data.districts && Array.isArray(data.districts)) {
-      console.log('✅ Path 1: Direct access');
+      
       districts = data.districts;
       chartData = data.chart_data || [];
     }
     // Path 2: Nested in data array (from function_calls)
     else if (data.data && Array.isArray(data.data)) {
-      console.log('🔍 Path 2: Checking nested data array');
+      
       for (const item of data.data) {
-        console.log('🔍 Checking item:', item);
+        
         if (item.result) {
           if (item.result.districts && Array.isArray(item.result.districts)) {
-            console.log('✅ Path 2: Found districts in nested structure');
+            
             districts = item.result.districts;
             chartData = item.result.chart_data || [];
             break;
@@ -78,57 +71,41 @@ const MultiIndicatorPerformance = ({ data, mapOnly = false, chartOnly = false })
     }
     // Path 3: Function result structure
     else if (data.data && !Array.isArray(data.data) && data.data.districts) {
-      console.log('✅ Path 3: Function result structure');
+      
       districts = data.data.districts;
       chartData = data.data.chart_data || [];
     }
 
-    console.log('🔍 After initial extraction:', {
-      districtsFound: districts.length,
-      chartDataFound: Array.isArray(chartData) ? chartData.length : 'not array',
-      chartDataType: typeof chartData
-    });
+    
 
     // Enhanced chart data extraction
     if (!chartData || !Array.isArray(chartData)) {
-      console.log('🔍 Trying alternative chart data paths');
+      
       // Try alternative paths for chart data
       chartData = data.chart_data || 
                  data.data?.chart_data || 
                  (data.data && Array.isArray(data.data) && data.data[0]?.result?.chart_data) || 
                  [];
-      console.log('🔍 Alternative chart data result:', chartData);
+      
     }
 
     // Convert chart data object to array if needed
     if (chartData && typeof chartData === 'object' && !Array.isArray(chartData)) {
-      console.log('🔍 Converting chart data object to array');
-      console.log('🔍 Original chart data object:', chartData);
-      console.log('🔍 Object keys:', Object.keys(chartData));
+      
       chartData = Object.values(chartData).filter(chart => chart && typeof chart === 'object');
-      console.log('🔍 Converted chart data:', chartData);
-      console.log('🔍 Each chart in converted data:');
+      
       chartData.forEach((chart, index) => {
         console.log(`Chart ${index}:`, {
-          title: chart.title,
-          type: chart.type,
-          hasData: !!chart.data,
-          hasLabels: !!chart.data?.labels,
-          hasDatasets: !!chart.data?.datasets,
-          labelsLength: chart.data?.labels?.length,
+          
           datasetsLength: chart.data?.datasets?.length
         });
       });
     }
 
-    console.log('🔍 Final extraction result:', {
-      districtsCount: districts.length,
-      chartDataCount: Array.isArray(chartData) ? chartData.length : 0,
-      chartDataIsArray: Array.isArray(chartData)
-    });
+    
 
     if (!districts || !districts.length) {
-      console.log('❌ No districts found');
+      
       return {
         districts: [],
         totalDistricts: 0,
@@ -150,7 +127,7 @@ const MultiIndicatorPerformance = ({ data, mapOnly = false, chartOnly = false })
       analysis: data.analysis || ''
     };
 
-    console.log('✅ Final performanceInfo result:', result);
+    
     return result;
   }, [data]);
 
@@ -232,14 +209,10 @@ const MultiIndicatorPerformance = ({ data, mapOnly = false, chartOnly = false })
 
   // Organize charts by category for pagination - always calculated to avoid conditional hooks
   const chartPages = useMemo(() => {
-    console.log('🔍 Chart Pages Processing - Input:', {
-      hasChartData: !!performanceInfo.chartData,
-      chartDataLength: performanceInfo.chartData?.length,
-      chartData: performanceInfo.chartData
-    });
+    
     
     if (!performanceInfo.chartData || performanceInfo.chartData.length === 0) {
-      console.log('❌ No chart data found for pagination');
+      
       return [];
     }
 
@@ -252,17 +225,7 @@ const MultiIndicatorPerformance = ({ data, mapOnly = false, chartOnly = false })
       chart.title?.toLowerCase().includes('change')
     );
     
-    // Remove distribution chart as it's not meaningful for this analysis
-    // const distributionChart = performanceInfo.chartData.find(chart => 
-    //   chart.title?.toLowerCase().includes('distribution')
-    // );
-
-    console.log('🔍 Chart categorization:', {
-      performanceChart: !!performanceChart,
-      changeChart: !!changeChart,
-      performanceChartTitle: performanceChart?.title,
-      changeChartTitle: changeChart?.title
-    });
+    
 
     const pages = [];
 
@@ -289,10 +252,7 @@ const MultiIndicatorPerformance = ({ data, mapOnly = false, chartOnly = false })
       });
     }
 
-    console.log('🔍 Final chart pages result:', {
-      pagesCount: pages.length,
-      pages: pages.map(p => ({ title: p.title, chartsCount: p.charts?.length }))
-    });
+   
 
     return pages;
   }, [performanceInfo.chartData]);
@@ -369,57 +329,30 @@ const MultiIndicatorPerformance = ({ data, mapOnly = false, chartOnly = false })
 
   // Enhanced Chart component
   const EnhancedChart = ({ chartConfig, title = null }) => {
-    console.log('🎯 EnhancedChart called with:', {
-      hasChartConfig: !!chartConfig,
-      chartConfigKeys: chartConfig ? Object.keys(chartConfig) : 'none',
-      title,
-      chartConfig
-    });
+    
 
     // Comprehensive validation
     if (!chartConfig) {
-      console.log('❌ No chart configuration provided');
+     
       return <div className="text-gray-500 p-4">No chart configuration provided</div>;
     }
 
     // Handle different chart data structures
     let chartData = chartConfig.data || chartConfig;
-    console.log('🎯 Chart data extracted:', {
-      hasChartData: !!chartData,
-      chartDataKeys: chartData ? Object.keys(chartData) : 'none',
-      hasLabels: !!chartData?.labels,
-      hasDatasets: !!chartData?.datasets,
-      chartData
-    });
+    
 
     if (!chartData || (!chartData.labels && !chartData.datasets)) {
-      console.log('❌ Invalid chart data structure');
+      
       return <div className="text-gray-500 p-4">Invalid chart data structure</div>;
     }
 
     // Ensure we have valid datasets
     if (!chartData.datasets || !Array.isArray(chartData.datasets) || chartData.datasets.length === 0) {
-      console.log('❌ No chart datasets available');
+      
       return <div className="text-gray-500 p-4">No chart datasets available</div>;
     }
 
-    // Debug: Log actual chart data values (only in development)
-    if (process.env.NODE_ENV === 'development') {
-      console.log('=== CHART DEBUG ===');
-      console.log('Chart Title:', chartConfig.title || title);
-      console.log('Chart Type:', chartConfig.type);
-      console.log('Labels:', chartData.labels);
-      console.log('Datasets:', chartData.datasets);
-      if (chartData.datasets?.[0]?.data) {
-        const validData = chartData.datasets[0].data.filter(v => v !== null && v !== undefined && !isNaN(v));
-        if (validData.length > 0) {
-          console.log('Data Values:', validData);
-          console.log('Min Value:', Math.min(...validData));
-          console.log('Max Value:', Math.max(...validData));
-        }
-      }
-      console.log('==================');
-    }
+    
 
     // Force bar charts only based on user preference
     const ChartComponent = Bar;
@@ -585,12 +518,7 @@ const MultiIndicatorPerformance = ({ data, mapOnly = false, chartOnly = false })
           return isNaN(numValue) ? 0 : numValue;
         });
         
-        console.log('🎯 Dataset processing:', {
-          originalData: dataset.data,
-          cleanData,
-          dataLength: cleanData.length,
-          hasValidData: cleanData.some(v => v !== 0)
-        });
+        
         
         return {
           ...dataset,
@@ -616,11 +544,7 @@ const MultiIndicatorPerformance = ({ data, mapOnly = false, chartOnly = false })
   };
 
   if (chartOnly) {
-    console.log('🔍 Chart Only Mode - State:', {
-      chartPagesLength: chartPages.length,
-      currentChartPage,
-      currentPageExists: !!chartPages[currentChartPage]
-    });
+    
     
     const currentPage = chartPages[currentChartPage] || null;
 
@@ -1274,3 +1198,4 @@ const MultiIndicatorPerformance = ({ data, mapOnly = false, chartOnly = false })
 };
 
 export default MultiIndicatorPerformance;
+
