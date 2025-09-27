@@ -72,18 +72,18 @@ const IndicatorChangeMap = ({ data }) => {
 
     const boundaryData = data.boundary;
     if (!boundaryData || boundaryData.length === 0) {
-      console.log('No boundary data available for indicator change map');
+      
       return;
     }
 
     // Add a small delay to ensure DOM is ready
     const initializeMap = () => {
       if (!mapContainer.current) {
-        console.log('Map container not ready yet');
+        
         return;
       }
 
-      console.log('Initializing indicator change map with boundary data:', boundaryData.length);
+      
 
       map.current = new mapboxgl.Map({
         container: mapContainer.current,
@@ -96,7 +96,7 @@ const IndicatorChangeMap = ({ data }) => {
       registerMapInstance('indicator-change-map', map.current);
 
       map.current.on('load', () => {
-        console.log('Indicator change map loaded successfully');
+        
 
         // Generate colors for states (for variety)
         const stateColors = {};
@@ -164,7 +164,7 @@ const IndicatorChangeMap = ({ data }) => {
             .filter(Boolean)
         };
 
-        console.log('District GeoJSON created with features:', districtsGeoJSON.features.length);
+        
 
         // Add districts source (check if it already exists)
         if (!map.current.getSource('change-districts')) {
@@ -459,12 +459,12 @@ const IndicatorChangeMap = ({ data }) => {
 const IndicatorChangeAnalysis = ({ changeData, mapOnly = false, chartOnly = false }) => {
   const [selectedLevel, setSelectedLevel] = useState(null);
 
-  console.log('📈 IndicatorChangeAnalysis - Input data:', changeData);
+
 
   // Extract and process the data
   const processedData = useMemo(() => {
     if (!changeData) {
-      console.log('❌ No changeData provided');
+      console.log('No changeData provided');
       return { 
         analysisLevel: 'unknown', 
         mainIndicator: 'Unknown', 
@@ -497,18 +497,7 @@ const IndicatorChangeAnalysis = ({ changeData, mapOnly = false, chartOnly = fals
     // Extract chart data
     const chartData = changeData.chart_data || null;
     
-    console.log('📊 Processed data:', {
-      analysisLevel,
-      mainIndicator,
-      indicatorDirection,
-      nationalData: !!nationalData,
-      stateData: !!stateData,
-      districtData: !!districtData,
-      exampleDistricts: exampleDistricts.length,
-      allDistricts: allDistricts.length,
-      boundaryData: boundaryData.length,
-      chartData: !!chartData
-    });
+   
 
     return {
       analysisLevel,
@@ -758,3 +747,4 @@ const IndicatorChangeAnalysis = ({ changeData, mapOnly = false, chartOnly = fals
 };
 
 export default IndicatorChangeAnalysis;
+
