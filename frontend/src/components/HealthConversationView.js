@@ -66,7 +66,7 @@ export default function HealthConversationView({ onNavigateToHome }) {
   const [currentTypingMessageId, setCurrentTypingMessageId] = useState(null);
   const typewriterTimeoutRef = useRef(null);
 
-  console.log("HealthConversationView rendered, messages length:", messages.length);
+  
 
   useEffect(() => {
     console.log("HealthConversationView mounted successfully");
@@ -213,14 +213,7 @@ export default function HealthConversationView({ onNavigateToHome }) {
 
       const data = await res.json();
       
-      console.log("=== API RESPONSE COMPLETE DEBUG ===");
-      console.log("API Response Data:", data);
-      console.log("API Response Keys:", Object.keys(data));
-      console.log("map_type:", data.map_type);
-      console.log("function_calls:", data.function_calls);
-      console.log("has chart_data:", !!data.chart_data);
-      console.log("has boundary:", !!data.boundary);
-      console.log("has district_name:", !!data.district_name);
+      
       
       // Check if this is a radius analysis response
       if (data.districts && data.boundary_data) {
@@ -240,7 +233,7 @@ export default function HealthConversationView({ onNavigateToHome }) {
       let visualizations = null;
 
       if (data.districts && data.boundary_data) {
-        console.log('📍 Using radius analysis structure (condition 1)');
+        
         // New structure for radius analysis
         visualizations = {
           boundary: data.boundary_data || [],
@@ -255,7 +248,7 @@ export default function HealthConversationView({ onNavigateToHome }) {
           function_calls: data.function_calls
         };
       } else if (data.districts || data.boundary_data) {
-        console.log('📍 Using partial radius analysis structure (condition 2)');
+        
         // Handle partial radius analysis data AND multi-district data
         visualizations = {
           boundary: data.boundary_data || data.boundary || [],
@@ -273,7 +266,7 @@ export default function HealthConversationView({ onNavigateToHome }) {
           ...data
         };
       } else if (data.boundary || data.data || data.chart_data || data.map_type) {
-        console.log('📍 Using general visualization structure (condition 3)');
+       
         // Handle all other function types including individual and multi-district
         visualizations = {
           boundary: data.boundary || [],
@@ -2745,7 +2738,7 @@ export default function HealthConversationView({ onNavigateToHome }) {
             <textarea
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder={isRecording ? "🎤 Listening... Speak your question" : "Message your AI health data assistant... (Press Enter to send, Shift+Enter for new line, 🎤 for voice)"}
+              placeholder={isRecording ? "🎤 Listening... Speak your question" : "Message your AI assistant... (Press Enter to send, Shift+Enter for new line, 🎤 for voice)"}
               className="chat-input"
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
@@ -2827,7 +2820,7 @@ export default function HealthConversationView({ onNavigateToHome }) {
             fontWeight: "500",
             letterSpacing: "0.5px"
           }}>
-            🏥 AI-powered health analysis • 📊 Interactive maps • 🔍 District insights
+            🏥 AI-powered analysis • 📊 Interactive maps • 🔍 District insights
           </div>
         </div>
 
@@ -3308,10 +3301,10 @@ export default function HealthConversationView({ onNavigateToHome }) {
                           chart_data: modalData.chart_data
                         };
                         
-                        console.log('HealthConversationView - modalData:', modalData);
+                        
                         
                         if (radiusData.districts && radiusData.districts.length > 0) {
-                          console.log('HealthConversationView - first district:', radiusData.districts[0]);
+                          console.log('');
                         }
                         
                         return (
@@ -3438,7 +3431,7 @@ export default function HealthConversationView({ onNavigateToHome }) {
                         
                         
                         if (radiusData.chart_data) {
-                          console.log('HealthConversationView - Chart types:', Object.keys(radiusData.chart_data));
+                          console.log(''));
                         }
                         
                         return (
@@ -3534,4 +3527,5 @@ export default function HealthConversationView({ onNavigateToHome }) {
     </div>
   );
 }
+
 
