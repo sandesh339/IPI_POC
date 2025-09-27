@@ -25,7 +25,7 @@ ChartJS.register(
 const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN;
 
 export default function DistrictComparisonAnalysis({ data = {}, chartOnly = false, mapOnly = false }) {
-  console.log('DistrictComparisonAnalysis received data:', data);
+  
 
   const [viewState, setViewState] = useState({
     longitude: 78.96,
@@ -44,7 +44,7 @@ export default function DistrictComparisonAnalysis({ data = {}, chartOnly = fals
       if (mapRef.current) {
         try {
           await initializeReactMapGLForCapture(mapRef, 'district-comparison-map');
-          console.log('District comparison map initialized for capture');
+          
         } catch (error) {
           console.error('Error initializing district comparison map:', error);
         }
@@ -95,7 +95,7 @@ export default function DistrictComparisonAnalysis({ data = {}, chartOnly = fals
       analysis: actualData.analysis || ""
     };
     
-    console.log('Comparison info extracted:', info);
+    
     
     return info;
   }, [actualData]);
@@ -103,7 +103,7 @@ export default function DistrictComparisonAnalysis({ data = {}, chartOnly = fals
   // Extract boundary data for mapping with performance information
   const boundaryData = useMemo(() => {
     if (!actualData?.boundary || !Array.isArray(actualData.boundary)) {
-      console.log('No boundary data available:', actualData?.boundary);
+      
       return null;
     }
 
@@ -256,13 +256,7 @@ export default function DistrictComparisonAnalysis({ data = {}, chartOnly = fals
         d.district_name === district_name
       );
       
-      console.log('Popup click debug:', {
-        district_name,
-        state_name,
-        districtData,
-        coordinates: { lng, lat },
-        comparisonInfo: comparisonInfo
-      });
+      
       
       setPopupInfo({
         longitude: lng,
@@ -560,13 +554,7 @@ export default function DistrictComparisonAnalysis({ data = {}, chartOnly = fals
                           🏥 Health Indicators vs {comparisonInfo.comparisonType === 'national' ? 'National' : 'State'} Average:
                         </div>
                         {popupInfo.district_data.indicators.slice(0, 4).map((indicator, idx) => {
-                          // Debug indicator data
-                          console.log('Popup indicator debug:', {
-                            indicator,
-                            comparisonType: comparisonInfo.comparisonType,
-                            comparisonData: comparisonInfo.comparisonData,
-                            stateName: popupInfo.state_name
-                          });
+                         
                           
                           // Get comparison value
                           let comparisonValue = null;
@@ -580,7 +568,7 @@ export default function DistrictComparisonAnalysis({ data = {}, chartOnly = fals
                             }
                           }
                           
-                          console.log('Comparison value found:', comparisonValue);
+                         
                           
                           const gap = (comparisonValue !== null && indicator.prevalence !== null) 
                             ? (indicator.prevalence - comparisonValue) : null;
@@ -719,3 +707,4 @@ export default function DistrictComparisonAnalysis({ data = {}, chartOnly = fals
     </div>
   );
 }
+
