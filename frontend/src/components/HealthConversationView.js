@@ -2646,7 +2646,7 @@ export default function HealthConversationView({ onNavigateToHome }) {
                       const isMulti = isMultiDistrictRequest(message.visualizations);
                       const isConstraint = isConstraintBasedRequest(message.visualizations);
                       const isTopBottom = isTopBottomDistrictsRequest(message.visualizations);
-                      const isIndicatorChange = false; // isIndicatorChangeAnalysisRequest(message.visualizations); // Temporarily disabled
+                      const isIndicatorChange = isIndicatorChangeAnalysisRequest(message.visualizations); 
                       const isDistrictComparison = isDistrictComparisonRequest(message.visualizations);
                       const isMultiIndicatorPerformance = isMultiIndicatorPerformanceRequest(message.visualizations);
                       const isStateMultiIndicatorPerformance = isStateMultiIndicatorPerformanceRequest(message.visualizations);
@@ -3340,10 +3340,8 @@ export default function HealthConversationView({ onNavigateToHome }) {
                         topBottomData={modalData}
                         mapOnly={true}
                       />
-                    ) : false && isIndicatorChangeAnalysisRequest(modalData) ? (
-                      // IndicatorChangeAnalysis temporarily disabled
-                      <div>IndicatorChangeAnalysis disabled</div>
-                    ) : isDistrictComparisonRequest(modalData) ? (
+                    ) : isIndicatorChangeAnalysisRequest(modalData) ? (
+                      
                       <DistrictComparisonAnalysis 
                         data={modalData}
                         mapOnly={true}
@@ -3467,10 +3465,7 @@ export default function HealthConversationView({ onNavigateToHome }) {
                         topBottomData={modalData}
                         chartOnly={true}
                       />
-                    ) : false && isIndicatorChangeAnalysisRequest(modalData) ? (
-                      // IndicatorChangeAnalysis temporarily disabled
-                      <div>IndicatorChangeAnalysis disabled</div>
-                    ) : isDistrictComparisonRequest(modalData) ? (
+                    ) : isIndicatorChangeAnalysisRequest(modalData) ? (
                       <DistrictComparisonAnalysis 
                         data={modalData}
                         chartOnly={true}
@@ -3523,6 +3518,7 @@ export default function HealthConversationView({ onNavigateToHome }) {
     </div>
   );
 }
+
 
 
 
