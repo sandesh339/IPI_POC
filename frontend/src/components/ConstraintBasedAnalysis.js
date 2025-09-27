@@ -48,15 +48,11 @@ const ConstraintBasedMap = ({ data }) => {
   useEffect(() => {
     if (!data || !data.boundary || map.current) return;
 
-    console.log('🗺️ Initializing constraint-based analysis map with data:', data);
-    console.log('🔍 Map container element:', mapContainer.current);
-    console.log('🔍 Mapbox token set:', !!mapboxgl.accessToken);
-    console.log('🔍 Mapbox token value:', mapboxgl.accessToken?.substring(0, 10) + '...');
-    console.log('🔍 Boundary data length:', data.boundary?.length);
+    
 
     // Verify mapbox token
     if (!mapboxgl.accessToken) {
-      console.error('❌ Mapbox access token not set!');
+      console.error('Mapbox access token not set!');
       return;
     }
 
@@ -64,13 +60,13 @@ const ConstraintBasedMap = ({ data }) => {
     const initializeMap = () => {
       // Check if container is available
       if (!mapContainer.current) {
-        console.error('❌ Map container not found');
+        console.error('Map container not found');
         return;
       }
 
       try {
         // Initialize map
-        console.log('📍 Creating new mapbox map...');
+       
         map.current = new mapboxgl.Map({
           container: mapContainer.current,
           style: 'mapbox://styles/mapbox/light-v11',
@@ -79,18 +75,18 @@ const ConstraintBasedMap = ({ data }) => {
           preserveDrawingBuffer: true // Essential for WebGL canvas capture
         });
         
-        console.log('✅ Mapbox map created successfully');
+        
 
         // Add error handlers
         map.current.on('error', (e) => {
-          console.error('❌ Mapbox map error:', e);
+          console.error('Mapbox map error:', e);
         });
 
         map.current.on('style.load', () => {
-          console.log('🎨 Map style loaded successfully');
+          console.log('Map style loaded successfully');
         });
       } catch (error) {
-        console.error('❌ Error creating mapbox map:', error);
+        console.error('Error creating mapbox map:', error);
         return;
       }
 
@@ -239,9 +235,7 @@ const ConstraintBasedMap = ({ data }) => {
         // Find the district data from the original data array
         const districtData = data.districts?.find(d => d.district_name === districtName);
         
-        console.log('=== CONSTRAINT POPUP CLICK DEBUG ===');
-        console.log('Clicked district:', districtName);
-        console.log('Found district data:', districtData);
+        
 
         // Create popup content
         let popupContent = `
@@ -546,30 +540,29 @@ const ConstraintBasedMap = ({ data }) => {
 const ConstraintBasedAnalysis = ({ constraintData, mapOnly = false, chartOnly = false }) => {
   const [selectedDistrict, setSelectedDistrict] = useState(null);
 
-  console.log('🎯 ConstraintBasedAnalysis - Input data:', constraintData);
+  
 
   // Extract and process the data
   const processedData = useMemo(() => {
     if (!constraintData) {
-      console.log('❌ No constraintData provided');
+      console.log('No constraintData provided');
       return { districts: [], constraints: [], boundaryData: [], chartData: null };
     }
 
     // Extract districts data
     const districts = constraintData.districts || [];
-    console.log('📍 Districts found:', districts.length);
+    
 
     // Extract constraints applied
     const constraints = constraintData.constraints_applied || [];
-    console.log('🔍 Constraints applied:', constraints.length);
+    
 
     // Extract boundary data for mapping
     const boundaryData = constraintData.boundary || [];
-    console.log('🗺️ Boundary data:', boundaryData.length);
-
+    
     // Extract chart data
     const chartData = constraintData.chart_data || null;
-    console.log('📊 Chart data available:', !!chartData);
+    
 
     // Process districts for easier access
     const processedDistricts = districts.map(district => {
@@ -940,3 +933,4 @@ const ConstraintBasedAnalysis = ({ constraintData, mapOnly = false, chartOnly = 
 };
 
 export default ConstraintBasedAnalysis;
+
