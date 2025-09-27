@@ -2712,7 +2712,7 @@ export default function HealthConversationView({ onNavigateToHome }) {
                     <span></span>
                     <span></span>
                   </div>
-                  Analyzing health data...
+                  Analyzing data...
                 </div>
               </div>
             </div>
@@ -2738,7 +2738,7 @@ export default function HealthConversationView({ onNavigateToHome }) {
             <textarea
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder={isRecording ? "🎤 Listening... Speak your question" : "Message your AI assistant... (Press Enter to send, Shift+Enter for new line, 🎤 for voice)"}
+              placeholder={isRecording ? "🎤 Listening... Speak your question" : "Message your assistant... (Press Enter to send, Shift+Enter for new line, 🎤 for voice)"}
               className="chat-input"
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
@@ -3527,5 +3527,6 @@ export default function HealthConversationView({ onNavigateToHome }) {
     </div>
   );
 }
+
 
 
