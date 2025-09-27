@@ -59,14 +59,8 @@ const RadiusAnalysisMap = ({ data, fullScreen = false }) => {
   useEffect(() => {
     if (!data || !data.boundary_data || map.current) return;
 
-    console.log('Initializing radius analysis map with data:', data);
-    console.log('Sample boundary_data:', data.boundary_data[0]);
-    console.log('Districts data:', data.districts);
-    console.log('Districts count:', data.districts?.length);
-    if (data.districts && data.districts.length > 0) {
-      console.log('Sample district:', data.districts[0]);
-      console.log('Sample district indicators:', data.districts[0].indicators);
-    }
+    
+   
 
     // Determine center coordinates dynamically
     let centerCoords;
@@ -77,7 +71,7 @@ const RadiusAnalysisMap = ({ data, fullScreen = false }) => {
       const lat = parseFloat(data.center_coordinates.lat);
       if (!isNaN(lng) && !isNaN(lat)) {
         centerCoords = [lng, lat];
-        console.log('Using center coordinates from backend:', centerCoords);
+        
       }
     }
     
@@ -89,14 +83,14 @@ const RadiusAnalysisMap = ({ data, fullScreen = false }) => {
         const lat = parseFloat(coords[0]);
         if (!isNaN(lng) && !isNaN(lat)) {
           centerCoords = [lng, lat]; // [lng, lat]
-          console.log('Using coordinates from center_point string:', centerCoords);
+          
         }
       }
     }
     
     // Method 3: Try to find center from boundary data for the specified center point
     if (!centerCoords && data.center_point && data.boundary_data && data.center_type === "district") {
-      console.log('Looking for center district:', data.center_point, 'in boundary data');
+      
       
       // Clean the center point name for better matching
       const cleanCenterPoint = data.center_point.toLowerCase().trim();
@@ -117,7 +111,7 @@ const RadiusAnalysisMap = ({ data, fullScreen = false }) => {
                cleanCenterPoint.includes(district2);
       });
       
-      console.log('Found center district boundary data:', centerDistrict?.district_name || centerDistrict?.district);
+      
       
       if (centerDistrict && centerDistrict.geometry) {
         try {
@@ -236,7 +230,7 @@ const RadiusAnalysisMap = ({ data, fullScreen = false }) => {
       centerCoords = [78.9629, 20.5937];
     }
     
-    console.log('Dynamic center coordinates determined:', centerCoords, 'for center_point:', data.center_point);
+    
 
     // Calculate appropriate zoom level based on radius
     const calculateZoomLevel = (radiusKm) => {
@@ -261,7 +255,7 @@ const RadiusAnalysisMap = ({ data, fullScreen = false }) => {
       preserveDrawingBuffer: true // Essential for WebGL canvas capture
     });
     
-    console.log('Map initialized with zoom level:', initialZoom, 'for radius:', data.radius_km || 100, 'km');
+    
 
     // Register the map instance for save functionality with multiple IDs for better capture
     registerMapInstance('radius-analysis-map', map.current);
@@ -277,7 +271,7 @@ const RadiusAnalysisMap = ({ data, fullScreen = false }) => {
     }, 1000);
 
     map.current.on('load', () => {
-      console.log('Radius analysis map loaded, initializing for capture...');
+      
       
       // Initialize for capture once map is fully loaded
       setTimeout(() => {
@@ -340,7 +334,7 @@ const RadiusAnalysisMap = ({ data, fullScreen = false }) => {
         }
       }
       
-      console.log('Dynamic radius determined:', effectiveRadius, 'km');
+      
       
       // Add radius circle using a simple approach
       // Validate centerCoords before creating radius circle
@@ -543,7 +537,7 @@ const RadiusAnalysisMap = ({ data, fullScreen = false }) => {
           }) || []
       };
 
-      console.log('districtsGeoJSON created with features:', districtsGeoJSON.features.length);
+      
 
       // Add districts source
       map.current.addSource('radius-districts', {
@@ -655,17 +649,8 @@ const RadiusAnalysisMap = ({ data, fullScreen = false }) => {
         // Find the district data from the original data array
         const districtData = data.districts?.find(d => d.district_name === districtName);
         
-        console.log('=== POPUP CLICK DEBUG ===');
-        console.log('Clicked district:', districtName);
-        console.log('Found district data:', districtData);
-        console.log('Raw district data JSON:', JSON.stringify(districtData, null, 2));
-        console.log('District data indicators:', districtData?.indicators);
-        console.log('Indicators length:', districtData?.indicators?.length);
-        if (districtData?.indicators && districtData.indicators.length > 0) {
-          console.log('First indicator:', districtData.indicators[0]);
-        }
-        console.log('Available districts:', data.districts?.map(d => d.district_name));
-        console.log('Raw data.districts sample:', JSON.stringify(data.districts?.[0], null, 2));
+        
+        
 
         // Calculate responsive sizing
         const screenWidth = window.innerWidth;
@@ -723,10 +708,7 @@ const RadiusAnalysisMap = ({ data, fullScreen = false }) => {
                              Array.isArray(districtData.indicators) && 
                              districtData.indicators.length > 0;
         
-        console.log('Has indicators check:', hasIndicators);
-        console.log('District data type:', typeof districtData);
-        console.log('Indicators type:', typeof districtData?.indicators);
-        console.log('Is indicators array?', Array.isArray(districtData?.indicators));
+        
         
         if (hasIndicators) {
           // Show indicator values in a scrollable container
@@ -917,7 +899,7 @@ const RadiusAnalysisMap = ({ data, fullScreen = false }) => {
       
       // Final initialization for capture after all layers are added
       setTimeout(() => {
-        console.log('All radius analysis layers loaded, final capture initialization...');
+        
         initializeMapForCapture(map.current, 'radius-analysis-map');
         map.current.triggerRepaint();
         
@@ -1499,5 +1481,6 @@ const RadiusAnalysis = ({ radiusData, mapOnly = false, chartOnly = false }) => {
     </div>
   );
 };
+
 
 export default RadiusAnalysis;
