@@ -83,55 +83,33 @@ const BorderDistrictsMap = ({ data }) => {
   const map = useRef(null);
 
   useEffect(() => {
-    console.log('=== BORDER DISTRICTS MAP DATA ===');
-    console.log('Full data object:', data);
-    console.log('data keys:', Object.keys(data || {}));
+    
     
     // Handle nested data structure for map as well
     let actualBoundaryData = data?.boundary_data || data?.boundary;
     let actualDistrictData = data?.data;
     let actualTargetState = data?.target_state;
     
-    console.log('Initial map data extraction:');
-    console.log('- actualBoundaryData:', actualBoundaryData);
-    console.log('- actualDistrictData:', actualDistrictData);
-    console.log('- actualTargetState:', actualTargetState);
+    
     
     // CRITICAL FIX FOR MAP: Check if data.data contains function call objects
     if (actualDistrictData && Array.isArray(actualDistrictData) && actualDistrictData[0]?.function === "get_border_districts") {
-      console.log('Found function call wrapper in map, extracting from result...');
       const result = actualDistrictData[0].result;
-      console.log('Function result in map:', result);
       actualBoundaryData = result?.boundary_data || result?.boundary;
       actualDistrictData = result?.data;
       actualTargetState = result?.target_state;
-      console.log('Extracted map data from function result:', { 
-        boundaryLength: actualBoundaryData?.length, 
-        districtLength: actualDistrictData?.length,
-        targetState: actualTargetState
-      });
+      
     }
     
     // If data is wrapped in a districts array with result objects, extract it
     if (data?.districts && Array.isArray(data.districts) && data.districts[0]?.result) {
-      console.log('Found nested data structure in map, extracting from result...');
       const result = data.districts[0].result;
-      console.log('result object:', result);
       actualBoundaryData = result.boundary_data || result.boundary;
       actualDistrictData = result.data;
       actualTargetState = result.target_state;
-      console.log('Extracted map data:', { 
-        boundaryLength: actualBoundaryData?.length, 
-        districtLength: actualDistrictData?.length,
-        targetState: actualTargetState
-      });
     }
     
-    console.log('Final map data:');
-    console.log('- boundaryData length:', actualBoundaryData?.length || 0);
-    console.log('- districtData length:', actualDistrictData?.length || 0);
-    console.log('- sample boundary:', actualBoundaryData?.[0]);
-    console.log('- sample district:', actualDistrictData?.[0]);
+
     
     if (!actualBoundaryData) {
       console.log('No boundary data available:', data);
@@ -143,12 +121,6 @@ const BorderDistrictsMap = ({ data }) => {
       return;
     }
 
-    console.log('Initializing border districts map with data:', {
-      boundaryData: actualBoundaryData,
-      districtData: actualDistrictData,
-      targetState: actualTargetState,
-      hasStateComparison: !!(data.state_comparison_data || data.districts?.[0]?.result?.state_comparison_data)
-    });
 
     // Get unique states and generate colors
     const allStates = [...new Set(actualDistrictData.map(d => d.state_name))];
@@ -181,7 +153,7 @@ const BorderDistrictsMap = ({ data }) => {
     }, 1000);
 
     map.current.on('load', () => {
-      console.log('Border districts map loaded, initializing for capture...');
+     
       
       // Initialize for capture once map is fully loaded
       setTimeout(() => {
@@ -276,7 +248,7 @@ const BorderDistrictsMap = ({ data }) => {
         }).filter(feature => feature !== null) // Remove any invalid features
       };
 
-      console.log('Generated border districts GeoJSON:', borderGeoJSON);
+      
 
       // Add source
       map.current.addSource('border-districts', {
@@ -566,7 +538,6 @@ const BorderDistrictsMap = ({ data }) => {
       
       // Final initialization for capture after all layers and legend are added
       setTimeout(() => {
-        console.log('All border districts layers loaded, final capture initialization...');
         initializeMapForCapture(map.current, 'border-districts-map');
         map.current.triggerRepaint();
         
@@ -610,14 +581,10 @@ const BorderDistrictsAnalysis = ({ borderData, mapOnly = false, chartOnly = fals
 
   // Process the data when it changes
   useEffect(() => {
-    console.log('=== BORDER DISTRICTS ANALYSIS DATA PROCESSING ===');
-    console.log('borderData:', borderData);
-    console.log('borderData.data:', borderData?.data);
-    console.log('borderData keys:', Object.keys(borderData || {}));
 
     // Handle nested data structure - check if data is in a result object
     let actualData = borderData?.data;
-    console.log('Initial actualData from borderData.data:', actualData);
+    
     
     // CRITICAL FIX: Check if borderData.data contains function call objects
     if (actualData && Array.isArray(actualData) && actualData[0]?.function === "get_border_districts") {
@@ -638,42 +605,33 @@ const BorderDistrictsAnalysis = ({ borderData, mapOnly = false, chartOnly = fals
       }
       
       actualData = actualData[0].result?.data;
-      console.log('Extracted district data from function result:', actualData);
+      
     }
     
     // If data is wrapped in a districts array with result objects, extract it
     if (borderData?.districts && Array.isArray(borderData.districts) && borderData.districts[0]?.result) {
-      console.log('Found nested data structure, extracting from result...');
-      console.log('borderData.districts[0].result:', borderData.districts[0].result);
       actualData = borderData.districts[0].result.data;
-      console.log('Extracted data from result:', actualData);
     }
     
     // Also check if the data is directly at the top level from flattened response
     if (!actualData && borderData?.target_state) {
-      console.log('Trying fallback: borderData has target_state, using borderData.data');
       actualData = borderData.data;
     }
     
     // Final check: if still no data, maybe it's structured differently
     if (!actualData) {
       console.log('No actualData found, checking all possible data locations:');
-      console.log('borderData.data:', borderData?.data);
-      console.log('borderData.districts:', borderData?.districts);
-      console.log('borderData.result:', borderData?.result);
-      console.log('Full borderData structure:', borderData);
+
     }
 
     if (!actualData || !Array.isArray(actualData)) {
-      console.log('No border districts data available - early return');
-      console.log('actualData:', actualData);
+      
       return;
     }
 
     // Process the data
     const districts = actualData;
-    console.log('Districts array length:', districts.length);
-    console.log('Sample district:', districts[0]);
+    
     
     // CRITICAL DEBUG: Check if districts have geometric data
     console.log('=== GEOMETRIC DATA CHECK ===');
@@ -694,10 +652,7 @@ const BorderDistrictsAnalysis = ({ borderData, mapOnly = false, chartOnly = fals
     const indicatorSet = new Set();
     
     districts.forEach((district, index) => {
-      console.log(`Processing district ${index}:`, district.district_name, district.state_name);
-      console.log(`District indicators:`, district.indicators?.length || 0);
-      console.log(`Full district object:`, district);
-      console.log(`District indicators array:`, district.indicators);
+     
       
       const state = district.state_name;
       if (!stateGroups[state]) {
@@ -707,13 +662,13 @@ const BorderDistrictsAnalysis = ({ borderData, mapOnly = false, chartOnly = fals
 
       // Collect unique indicators
       if (district.indicators && Array.isArray(district.indicators)) {
-        console.log(`Processing ${district.indicators.length} indicators for ${district.district_name}`);
+        
         district.indicators.forEach((indicator, indicatorIndex) => {
-          console.log(`  Indicator ${indicatorIndex}:`, indicator.indicator_name, indicator);
+          
           if (indicator.indicator_name && !indicatorSet.has(indicator.indicator_name)) {
             indicatorSet.add(indicator.indicator_name);
             allIndicators.push(indicator);
-            console.log(`    Added indicator: ${indicator.indicator_name}`);
+            
           }
         });
       } else {
@@ -729,16 +684,14 @@ const BorderDistrictsAnalysis = ({ borderData, mapOnly = false, chartOnly = fals
       totalIndicators: allIndicators.length
     };
 
-    console.log('Processed data object:', processedDataObj);
-    console.log('Total indicators found:', allIndicators.length);
-    console.log('All indicators:', allIndicators.map(ind => ind.indicator_name));
+   
 
     setProcessedData(processedDataObj);
     setIndicators(allIndicators);
 
     // Set initial indicator only if we don't have one
     if (!selectedIndicator && allIndicators.length > 0) {
-      console.log('Setting initial indicator:', allIndicators[0].indicator_name);
+      
       setSelectedIndicator(allIndicators[0]);
     }
 
@@ -834,14 +787,14 @@ const BorderDistrictsAnalysis = ({ borderData, mapOnly = false, chartOnly = fals
         
         // Get the target state for comparison
         const targetState = borderData?.target_state || borderData?.data?.[0]?.result?.target_state;
-        console.log(`Target state for comparison: ${targetState}`);
+        
         
         if (stateComparisonData && stateComparisonData[targetState]) {
           const targetStateData = stateComparisonData[targetState][selectedIndicator.indicator_name];
           if (targetStateData && targetStateData.prevalence_2021 !== null) {
             // Set the same target state value for all border state groups
             stateActualAverages[state] = targetStateData.prevalence_2021;
-            console.log(`Target state (${targetState}) average for ${selectedIndicator.indicator_name}: ${targetStateData.prevalence_2021}`);
+            
           }
         }
       });
@@ -937,9 +890,7 @@ const BorderDistrictsAnalysis = ({ borderData, mapOnly = false, chartOnly = fals
 
   // Generate state performance summary chart showing above/below state average
   const generateStatePerformanceSummaryChart = () => {
-    console.log('=== GENERATING STATE PERFORMANCE SUMMARY CHART ===');
-    console.log('processedData:', processedData);
-    console.log('borderData.state_comparison_data:', borderData?.state_comparison_data);
+    
     
     // Check if we have the data from function call result
     let stateComparisonData = borderData?.state_comparison_data;
@@ -948,15 +899,13 @@ const BorderDistrictsAnalysis = ({ borderData, mapOnly = false, chartOnly = fals
     }
     
     if (!processedData?.districts || !stateComparisonData) {
-      console.log('Missing required data for state performance summary chart');
-      console.log('- processedData.districts:', processedData?.districts?.length || 0);
-      console.log('- stateComparisonData:', stateComparisonData);
+      
       return null;
     }
 
     try {
       const states = Object.keys(stateComparisonData);
-      console.log('Available states for performance summary:', states);
+      
       
       const stateColors = generateStateColors(states, borderData?.target_state || borderData?.data?.[0]?.result?.target_state);
       
@@ -1357,5 +1306,6 @@ const BorderDistrictsAnalysis = ({ borderData, mapOnly = false, chartOnly = fals
     </div>
   );
 };
+
 
 export default BorderDistrictsAnalysis; 
