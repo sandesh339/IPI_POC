@@ -45,7 +45,7 @@ const PERFORMANCE_COLORS = {
 };
 
 export default function NeighboringDistrictsAnalysis({ data = {}, boundary = [], chartOnly = false, isModal = false, mapOnly = false }) {
-  console.log('NeighboringDistrictsAnalysis received data:', data);
+  
 
   const [viewState, setViewState] = useState({
     longitude: 78.96,
@@ -76,7 +76,7 @@ export default function NeighboringDistrictsAnalysis({ data = {}, boundary = [],
             window.mapboxMap = mapInstance;
             
             await initializeReactMapGLForCapture(mapRef, 'neighboring-districts-map');
-            console.log('Neighboring districts map initialized for capture');
+            
           }
         } catch (error) {
           console.error('Error initializing neighboring districts map:', error);
@@ -117,7 +117,7 @@ export default function NeighboringDistrictsAnalysis({ data = {}, boundary = [],
   const neighboringInfo = useMemo(() => {
     // Add extra safety checks
     if (!actualData || typeof actualData !== 'object') {
-      console.log('actualData is not ready:', actualData);
+      
       return null;
     }
 
@@ -130,7 +130,7 @@ export default function NeighboringDistrictsAnalysis({ data = {}, boundary = [],
     const sdgGoal = actualData.sdg_goal;
     const indicators = actualData.indicators;
 
-    console.log('neighboringInfo computed successfully');
+    
     return {
       targetDistrict,
       neighbors,
@@ -146,15 +146,10 @@ export default function NeighboringDistrictsAnalysis({ data = {}, boundary = [],
 
   // Process boundary data for map visualization
   const mapFeatures = useMemo(() => {
-    console.log('Processing mapFeatures with:', {
-      hasNeighboringInfo: !!neighboringInfo,
-      boundaryLength: boundary?.length,
-      targetDistrict: neighboringInfo?.targetDistrict?.district_name,
-      neighborsCount: neighboringInfo?.neighbors?.length
-    });
+    
 
     if (!neighboringInfo || !boundary || boundary.length === 0) {
-      console.log('No neighboring info or boundary data available');
+      
       return [];
     }
 
@@ -208,11 +203,7 @@ export default function NeighboringDistrictsAnalysis({ data = {}, boundary = [],
       }
     });
 
-    console.log('Final mapFeatures:', {
-      featuresCount: features.length,
-      sampleFeature: features[0],
-      allFeatureNames: features.map(f => f.properties?.district_name)
-    });
+    
 
     return features;
   }, [neighboringInfo, boundary]);
@@ -282,8 +273,7 @@ export default function NeighboringDistrictsAnalysis({ data = {}, boundary = [],
                   neighboringInfo.neighbors[0]?.indicators || [];
     }
     
-    console.log('Available indicators:', indicators);
-    console.log('Target district structure:', neighboringInfo?.targetDistrict);
+    
     return indicators;
   }, [neighboringInfo]);
 
@@ -297,7 +287,7 @@ export default function NeighboringDistrictsAnalysis({ data = {}, boundary = [],
   // Generate comparison chart data
   const generateComparisonChart = useCallback(() => {
     if (!neighboringInfo || !selectedIndicator) {
-      console.log('Missing neighboringInfo or selectedIndicator:', { neighboringInfo: !!neighboringInfo, selectedIndicator });
+      
       return null;
     }
 
@@ -322,10 +312,7 @@ export default function NeighboringDistrictsAnalysis({ data = {}, boundary = [],
     const targetIndicator = findIndicator(targetDistrict, selectedIndicator);
     
     if (!targetIndicator) {
-      console.log('Target indicator not found:', selectedIndicator);
-      console.log('Target district structure:', targetDistrict);
-      console.log('Target performance indicators:', targetDistrict?.performance?.indicators);
-      console.log('Target direct indicators:', targetDistrict?.indicators);
+      
       return null;
     }
 
@@ -519,7 +506,7 @@ export default function NeighboringDistrictsAnalysis({ data = {}, boundary = [],
     const values = districtScores.map(d => d.performance);
     const colors = districtScores.map(d => d.isTarget ? TARGET_COLOR : '#3498DB');
 
-    console.log('Ranking chart data generated:', { labels, values });
+    
 
     return {
       labels,
@@ -766,14 +753,11 @@ export default function NeighboringDistrictsAnalysis({ data = {}, boundary = [],
 
   const renderChart = () => {
     if (!neighboringInfo) {
-      console.log('No neighboring info available for chart');
+      
       return null;
     }
 
-    console.log('Rendering chart with type:', chartType);
-    console.log('Available indicators:', availableIndicators);
-    console.log('Selected indicator:', selectedIndicator);
-    console.log('Neighboring info:', neighboringInfo);
+    
 
     let chartData = null;
     let ChartComponent = Bar;
@@ -800,7 +784,7 @@ export default function NeighboringDistrictsAnalysis({ data = {}, boundary = [],
         ChartComponent = Bar;
     }
 
-    console.log('Generated chart data:', chartData);
+    
 
     // If no chart data but we have distance info, show distance chart as fallback
     if (!chartData && neighboringInfo?.neighbors?.length > 0 && neighboringInfo.neighbors.some(n => n.distance_km)) {
@@ -998,7 +982,7 @@ export default function NeighboringDistrictsAnalysis({ data = {}, boundary = [],
               }
             }}
             onLoad={() => {
-              console.log('Neighboring districts map onLoad triggered - map base layer ready');
+              console.log('');
               // Map loaded - initialization handled in useEffect
             }}
             interactiveLayerIds={['neighbor-districts-fill']}
@@ -1029,10 +1013,10 @@ export default function NeighboringDistrictsAnalysis({ data = {}, boundary = [],
                 }}
                 onLayerData={(e) => {
                   if (e.isLayerLoaded && !window.neighboringDistrictsMapReady) {
-                    console.log('Neighboring districts fill layer loaded');
+                    
                     // Set readiness flag - no additional initialization needed
                     window.neighboringDistrictsMapReady = true;
-                    console.log('Neighboring districts map ready for capture');
+                    
                   }
                 }}
               />
@@ -1286,4 +1270,5 @@ export default function NeighboringDistrictsAnalysis({ data = {}, boundary = [],
       {!chartOnly && !mapOnly && renderAnalysisText()}
     </div>
   );
+
 } 
