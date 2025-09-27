@@ -1000,8 +1000,7 @@ export default function HealthConversationView({ onNavigateToHome }) {
         {/* Individual District Health Analysis */}
         {isIndividualDistrictRequest(visualizations) && (
           <div className="visualization-section">
-            <h4>🏥 Individual District Health Analysis</h4>
-            <p>Comprehensive health indicators data for the specified district.</p>
+            
             
             {/* Visual Analysis Box */}
             <div style={{
@@ -1087,8 +1086,7 @@ export default function HealthConversationView({ onNavigateToHome }) {
         {/* Multi-District Health Analysis */}
         {isMultiDistrictRequest(visualizations) && (
           <div className="visualization-section">
-            <h4>🏥 Multi-District Health Analysis</h4>
-            <p>Comparative health indicators analysis across multiple districts.</p>
+           
             
             {/* Visual Analysis Box */}
             <div style={{
@@ -1252,8 +1250,7 @@ export default function HealthConversationView({ onNavigateToHome }) {
           return isBorderDistrictsReq;
         })() && (
           <div className="visualization-section">
-            <h4>🌐 Border Districts Analysis</h4>
-            <p>Health indicators analysis for districts at state boundaries.</p>
+            
             
             {/* Visual Analysis Box */}
             <div style={{
@@ -1348,8 +1345,7 @@ export default function HealthConversationView({ onNavigateToHome }) {
           return isConstraintBasedRequest(visualizations);
         })() && (
           <div className="visualization-section">
-            <h4>🎯 Constraint-Based Analysis</h4>
-            <p>Districts meeting specific health indicator thresholds and criteria.</p>
+            
             
             {/* Visual Analysis Box */}
             <div style={{
@@ -3527,6 +3523,7 @@ export default function HealthConversationView({ onNavigateToHome }) {
     </div>
   );
 }
+
 
 
 
