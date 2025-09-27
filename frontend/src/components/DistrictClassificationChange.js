@@ -13,8 +13,7 @@ const DistrictClassificationChange = ({ data, mapOnly = false, chartOnly = false
   const chartInstance = useRef(null);
   const [isMapLoaded, setIsMapLoaded] = useState(false);
 
-  // Debug logging (can be removed after confirming fix)
-  console.log('✅ DistrictClassificationChange - Component loaded successfully with', data?.classified_districts?.length, 'districts');
+  
 
   useEffect(() => {
     if (!map.current && mapContainer.current && (!chartOnly)) {
@@ -607,3 +606,4 @@ const DistrictClassificationChange = ({ data, mapOnly = false, chartOnly = false
 };
 
 export default DistrictClassificationChange;
+
