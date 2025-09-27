@@ -3431,7 +3431,7 @@ export default function HealthConversationView({ onNavigateToHome }) {
                         
                         
                         if (radiusData.chart_data) {
-                          console.log(''));
+                          console.log('');
                         }
                         
                         return (
@@ -3527,6 +3527,7 @@ export default function HealthConversationView({ onNavigateToHome }) {
     </div>
   );
 }
+
 
 
 
