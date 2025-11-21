@@ -104,13 +104,13 @@ def jenks_breaks_optimized(data_list: List[float], number_class: int) -> List[fl
     # For very large datasets, use intelligent sampling to maintain accuracy while improving speed
     n_data = len(data_array)
     if n_data > 1000:
-        logger.info(f"🚀 Large dataset ({n_data} points): Using optimized sampling approach")
+        logger.info(f" Large dataset ({n_data} points): Using optimized sampling approach")
         # Use stratified sampling to maintain distribution
         sample_size = min(500, n_data)
         indices = np.linspace(0, n_data - 1, sample_size, dtype=int)
         data_array = data_array[indices]
         n_data = len(data_array)
-        logger.info(f"📉 Reduced to {n_data} representative points for Jenks calculation")
+        logger.info(f" Reduced to {n_data} representative points for Jenks calculation")
     
     # Pre-compute cumulative sums for O(1) range sum calculations
     cumsum = np.concatenate([[0], np.cumsum(data_array)])
@@ -372,11 +372,11 @@ def get_db_connection():
                 cursor.execute("SELECT 1;")
                 cursor.fetchone()
                 cursor.close()
-                print(f"✅ Connected using strategy {i}")
+                print(f" Connected using strategy {i}")
                 return conn
         except Exception as e:
             last_error = e
-            print(f"⚠️ Strategy {i} failed: {e}")
+            print(f" Strategy {i} failed: {e}")
             continue
     
     # If all strategies fail, raise the last error
@@ -434,7 +434,7 @@ def get_district_boundary_data(district_names: List[str]):
         if not district_names:
             return []
         
-        logger.info(f"🗺️ Fetching optimized boundary data for {len(district_names)} districts")
+        logger.info(f" Fetching optimized boundary data for {len(district_names)} districts")
         
         # OPTIMIZATION 1: Use simplified geometries for faster transfer
         placeholders = ','.join(['%s'] * len(district_names))
@@ -457,7 +457,7 @@ def get_district_boundary_data(district_names: List[str]):
         results = cursor.fetchall()
         query_time = time.time() - query_start
         
-        logger.info(f"⚡ Boundary query executed in {query_time:.2f}s")
+        logger.info(f" Boundary query executed in {query_time:.2f}s")
         
         # Debug: uncomment for troubleshooting
         # print(f"📊 Found boundary data for {len(results)} districts:")
@@ -465,7 +465,7 @@ def get_district_boundary_data(district_names: List[str]):
         #     print(f"  - '{row[0]}' in {row[1]}")
         
         if len(results) < len(district_names):
-            # print(f"⚠️  Missing boundary data for {len(district_names) - len(results)} districts!")
+            # print(f"  Missing boundary data for {len(district_names) - len(results)} districts!")
             
             # Try fuzzy matching for missing districts
             found_districts = {row[0].upper() for row in results}  # Use upper case for comparison
@@ -508,9 +508,9 @@ def get_district_boundary_data(district_names: List[str]):
                     
                     if matched_result:
                         results.append(matched_result)
-                        # print(f"    ✅ Added fuzzy match to results")
+                        # print(f"     Added fuzzy match to results")
                 # else:
-                    # print(f"    ❌ No good fuzzy match found for '{missing}'")
+                    # print(f"     No good fuzzy match found for '{missing}'")
         
         boundary_data = []
         for row in results:
@@ -534,7 +534,7 @@ def get_district_boundary_data(district_names: List[str]):
         cursor.close()
         conn.close()
         
-        # print(f"🎯 Final boundary data: {len(boundary_data)} districts ready for mapping")
+        # print(f" Final boundary data: {len(boundary_data)} districts ready for mapping")
         
         return boundary_data
         
@@ -656,9 +656,9 @@ def get_district_health_data(
         boundary_data = get_district_boundary_data(boundary_names)
         
         # Generate analysis and charts
-        logger.info(f"🔍 get_district_health_data: resolved_districts count = {len(resolved_districts)}")
-        logger.info(f"🔍 Resolved districts: {[d['district_name'] for d in resolved_districts]}")
-        logger.info(f"🔍 Districts data keys: {list(districts_data.keys())}")
+        logger.info(f" get_district_health_data: resolved_districts count = {len(resolved_districts)}")
+        logger.info(f" Resolved districts: {[d['district_name'] for d in resolved_districts]}")
+        logger.info(f" Districts data keys: {list(districts_data.keys())}")
         
         if len(resolved_districts) == 1:
             # Single district analysis
@@ -703,13 +703,13 @@ def get_district_health_data(
         cursor.close()
         conn.close()
         
-        logger.info(f"🚀 get_district_health_data returning:")
-        logger.info(f"  🗺️ map_type: {response.get('map_type')}")
-        logger.info(f"  📊 chart_data: {bool(response.get('chart_data'))}")
-        logger.info(f"  🏙️ districts: {bool(response.get('districts'))}")
-        logger.info(f"  🏙️ district_name: {response.get('district_name', 'N/A')}")
+        logger.info(f" get_district_health_data returning:")
+        logger.info(f"   map_type: {response.get('map_type')}")
+        logger.info(f"   chart_data: {bool(response.get('chart_data'))}")
+        logger.info(f"   districts: {bool(response.get('districts'))}")
+        logger.info(f"   district_name: {response.get('district_name', 'N/A')}")
         if response.get('districts'):
-            logger.info(f"  📍 Districts count: {len(response['districts'])}")
+            logger.info(f"   Districts count: {len(response['districts'])}")
         
         return response
         
@@ -1876,8 +1876,8 @@ def generate_multi_district_analysis(districts_data, indicators):
             worst_district = min(district_scores.items(), key=lambda x: x[1])
             
             analysis_parts.append(f"**Overall Performance:**")
-            analysis_parts.append(f"🏆 Best performing: {best_district[0]} (score: {best_district[1]:.1f})")
-            analysis_parts.append(f"⚠️ Needs attention: {worst_district[0]} (score: {worst_district[1]:.1f})\n")
+            analysis_parts.append(f" Best performing: {best_district[0]} (score: {best_district[1]:.1f})")
+            analysis_parts.append(f" Needs attention: {worst_district[0]} (score: {worst_district[1]:.1f})\n")
         
         # State-wise grouping
         states = {}
@@ -5293,9 +5293,9 @@ def get_district_performance_comparison(
             matched = match_indicator_name_to_database(indicator_name)
             if matched:
                 matched_indicators.append(matched)
-                print(f"🎯 Matched '{indicator_name}' to '{matched['indicator_name']}'")
+                print(f" Matched '{indicator_name}' to '{matched['indicator_name']}'")
             else:
-                print(f"❌ Could not match indicator name '{indicator_name}'")
+                print(f" Could not match indicator name '{indicator_name}'")
         
         if not matched_indicators:
             return {
@@ -5783,14 +5783,14 @@ This analysis compares **{total_districts} districts** across **{total_indicator
                     
                     if indicator_direction == "higher_is_better":
                         if gap > 0:
-                            performance_status = "✅ **Above average** (better performance)"
+                            performance_status = " **Above average** (better performance)"
                         else:
-                            performance_status = "⚠️ **Below average** (needs improvement)"
+                            performance_status = " **Below average** (needs improvement)"
                     else:  # lower_is_better
                         if gap < 0:
-                            performance_status = "✅ **Below average** (better performance)"
+                            performance_status = " **Below average** (better performance)"
                         else:
-                            performance_status = "⚠️ **Above average** (needs improvement)"
+                            performance_status = " **Above average** (needs improvement)"
                     
                     district_performances.append({
                         "district": district,
@@ -6088,7 +6088,7 @@ def get_multi_indicator_performance(
         if not selected_indicators:
             return {"error": "No indicators found for analysis"}
         
-        print(f"🎯 Selected {len(selected_indicators)} indicators for multi-indicator analysis")
+        print(f" Selected {len(selected_indicators)} indicators for multi-indicator analysis")
         
         # Step 2: Get all district data for normalization
         indicator_ids = [ind["indicator_id"] for ind in selected_indicators]
@@ -6629,7 +6629,7 @@ def get_state_multi_indicator_performance(
         if not selected_indicators:
             return {"error": "No indicators found for analysis"}
         
-        print(f"🎯 Selected {len(selected_indicators)} indicators for state-level multi-indicator analysis")
+        print(f" Selected {len(selected_indicators)} indicators for state-level multi-indicator analysis")
         
         # Auto-detect performance type from query hint if provided
         if query_hint and performance_type == "top":
@@ -6637,7 +6637,7 @@ def get_state_multi_indicator_performance(
             lowest_keywords = ["lowest", "worst", "bottom", "poor", "underperform", "weakest", "bad"]
             if any(keyword in query_lower for keyword in lowest_keywords):
                 performance_type = "bottom"
-                print(f"🔍 Detected 'lowest' hint in query, switching to bottom districts")
+                print(f" Detected 'lowest' hint in query, switching to bottom districts")
         
         # Step 2: Get state-level data from state_indicators table
         indicator_ids = [ind["indicator_id"] for ind in selected_indicators]
@@ -6679,7 +6679,7 @@ def get_state_multi_indicator_performance(
         all_districts_for_boundary = []
         
         # Get all districts once and then filter by state
-        print(f"🔍 Getting district data for filtering by states...")
+        print(f" Getting district data for filtering by states...")
         all_districts_result = get_multi_indicator_performance(
             district_names=None,  # Get all districts
             category_name=category_name,
@@ -6692,11 +6692,11 @@ def get_state_multi_indicator_performance(
         
         if "districts" in all_districts_result and all_districts_result["districts"]:
             all_districts = all_districts_result["districts"]
-            print(f"📊 Found {len(all_districts)} total districts to filter from")
+            print(f" Found {len(all_districts)} total districts to filter from")
             
             for state_perf in state_performance:
                 state_name = state_perf["state_name"]
-                print(f"🔍 Filtering districts for state: {state_name}")
+                print(f" Filtering districts for state: {state_name}")
                 
                 # Filter districts to only those in current state
                 state_districts = [
@@ -6704,7 +6704,7 @@ def get_state_multi_indicator_performance(
                     if d.get("state_name") == state_name
                 ]
                 
-                print(f"📍 Found {len(state_districts)} districts in {state_name}")
+                print(f" Found {len(state_districts)} districts in {state_name}")
                 
                 if state_districts:
                     # Sort and limit based on performance_type
@@ -6732,16 +6732,16 @@ def get_state_multi_indicator_performance(
                         selected_districts = top_districts
                     
                     state_district_data[state_name] = selected_districts
-                    print(f"✅ Selected {len(selected_districts)} districts for {state_name}")
+                    print(f" Selected {len(selected_districts)} districts for {state_name}")
                     
                     # Collect district names for boundary data
                     for district in selected_districts:
                         all_districts_for_boundary.append(district["district_name"])
                 else:
-                    print(f"⚠️ No districts found for state: {state_name}")
+                    print(f" No districts found for state: {state_name}")
                     state_district_data[state_name] = []
         else:
-            print("❌ No districts found in district analysis result")
+            print(" No districts found in district analysis result")
             # Set empty district data for all states
             for state_perf in state_performance:
                 state_district_data[state_perf["state_name"]] = []
@@ -7105,7 +7105,7 @@ def get_state_boundary_data(state_names):
         table_exists = cursor.fetchone()[0]
         
         if not table_exists:
-            print("⚠️ district_geometry table not found, skipping boundary data")
+            print(" district_geometry table not found, skipping boundary data")
             cursor.close()
             conn.close()
             return []
@@ -7646,7 +7646,7 @@ def get_district_similarity_analysis(
         if not selected_indicators:
             return {"error": "No indicators found for analysis"}
         
-        print(f"🎯 Selected {len(selected_indicators)} indicators for similarity analysis")
+        print(f" Selected {len(selected_indicators)} indicators for similarity analysis")
         
         # Step 2: Get district data for all selected indicators
         indicator_ids = [ind["indicator_id"] for ind in selected_indicators]
@@ -7730,7 +7730,7 @@ def get_district_similarity_analysis(
         if len(complete_districts) < 2:
             return {"error": "Insufficient districts with complete data for similarity analysis"}
         
-        print(f"📊 Found {len(complete_districts)} districts with complete indicator data")
+        print(f" Found {len(complete_districts)} districts with complete indicator data")
         
         # Step 5: Simple similarity/difference analysis
         if analysis_type == "similar":
@@ -7951,7 +7951,7 @@ def get_district_similarity_analysis(
         total_states = len(set(d['state_name'] for d in all_selected_districts)) if all_selected_districts else 0
         
         analysis_parts = [
-            f"🔍 **Enhanced {analysis_type.title()} Analysis with Indicator-Specific Districts**\n",
+            f" **Enhanced {analysis_type.title()} Analysis with Indicator-Specific Districts**\n",
             f"**Analysis Type:** {analysis_type.title()} performance patterns per indicator",
             f"**Indicators Analyzed:** {len(selected_indicators)}",
             f"**Total Unique Districts:** {total_unique_districts}",
@@ -7961,7 +7961,7 @@ def get_district_similarity_analysis(
         ]
         
         # Add explicit section header for maximum clarity
-        analysis_parts.append("## 📊 DETAILED INDICATOR-SPECIFIC DISTRICT SELECTIONS")
+        analysis_parts.append("##  DETAILED INDICATOR-SPECIFIC DISTRICT SELECTIONS")
         analysis_parts.append("*Each indicator below has its own optimally selected districts based on enhanced algorithms:*\n")
         for indicator in selected_indicators:
             indicator_id = indicator["indicator_id"]
@@ -7973,7 +7973,7 @@ def get_district_similarity_analysis(
                 avg_val = sum(values) / len(values)
                 value_range = max_val - min_val
                 
-                analysis_parts.append(f"\n### 📊 **{indicator['indicator_name']}** - Specific District Selection")
+                analysis_parts.append(f"\n###  **{indicator['indicator_name']}** - Specific District Selection")
                 if analysis_type == "similar":
                     analysis_parts.append(f"**Algorithm:** Statistical Clustering - Districts within 0.5 standard deviations")
                     analysis_parts.append(f"**Districts Selected:** {len(specific_districts)} with statistically similar values")
@@ -8081,7 +8081,7 @@ def get_district_classification(
         cursor = conn.cursor()
         
         # Step 1: Match indicator name to database
-        logger.info(f"🔍 Matching indicator name: {indicator_name}")
+        logger.info(f" Matching indicator name: {indicator_name}")
         matched_indicator = match_indicator_name_to_database(indicator_name)
         
         if not matched_indicator:
@@ -8095,7 +8095,7 @@ def get_district_classification(
         indicator_direction = matched_indicator["indicator_direction"]
         higher_is_better = indicator_direction == "higher_is_better"
         
-        logger.info(f"🎯 Matched to: {indicator_display_name} (ID: {indicator_id}, Direction: {indicator_direction})")
+        logger.info(f" Matched to: {indicator_display_name} (ID: {indicator_id}, Direction: {indicator_direction})")
         
         # Step 2: Build state filter condition
         state_filter_condition = ""
@@ -8107,7 +8107,7 @@ def get_district_classification(
             placeholders = ','.join(['%s'] * len(normalized_states))
             state_filter_condition = f"AND s.state_name IN ({placeholders})"
             state_filter_params = normalized_states
-            logger.info(f"🏛️ Filtering by states: {', '.join(normalized_states)}")
+            logger.info(f" Filtering by states: {', '.join(normalized_states)}")
         else:
             logger.info("🇮🇳 Analyzing all districts in India")
         
@@ -8140,7 +8140,7 @@ def get_district_classification(
                 "response_type": "error"
             }
         
-        logger.info(f"📊 Found data for {len(results)} districts")
+        logger.info(f" Found data for {len(results)} districts")
         
         # Step 4: Extract values and calculate Jenks breaks
         all_values = [row[3] for row in results if row[3] is not None]
@@ -8151,12 +8151,12 @@ def get_district_classification(
                 "response_type": "error"
             }
         
-        logger.info(f"📈 Calculating Jenks natural breaks for {len(all_values)} values")
-        logger.info(f"📈 Value range: {min(all_values):.2f} - {max(all_values):.2f}")
+        logger.info(f" Calculating Jenks natural breaks for {len(all_values)} values")
+        logger.info(f" Value range: {min(all_values):.2f} - {max(all_values):.2f}")
         
         # Calculate Jenks breaks for 4 classes
         breaks = jenks_breaks(all_values, 4)
-        logger.info(f"🎯 Jenks breaks: {[f'{b:.2f}' for b in breaks]}")
+        logger.info(f" Jenks breaks: {[f'{b:.2f}' for b in breaks]}")
         
         # Step 5: Classify each district (OPTIMIZED WITH PARALLEL PROCESSING)
         classified_districts = []
@@ -8166,13 +8166,13 @@ def get_district_classification(
         if len(results) > 50:  # Lower threshold for parallel processing
             import os
             max_workers = min(os.cpu_count() or 4, 8)  # Use up to 8 cores
-            logger.info(f"🚀 Using AGGRESSIVE parallel processing: {max_workers} workers for {len(results)} districts")
+            logger.info(f" Using AGGRESSIVE parallel processing: {max_workers} workers for {len(results)} districts")
             
             # Optimize batch size for better load distribution
             optimal_batch_size = max(20, len(results) // (max_workers * 2))  # Smaller batches for better parallelism
             batches = [results[i:i + optimal_batch_size] for i in range(0, len(results), optimal_batch_size)]
             
-            logger.info(f"📦 Created {len(batches)} optimized batches of ~{optimal_batch_size} districts each")
+            logger.info(f" Created {len(batches)} optimized batches of ~{optimal_batch_size} districts each")
             
             # Process batches in parallel with maximum efficiency
             with ThreadPoolExecutor(max_workers=max_workers) as executor:
@@ -8188,16 +8188,16 @@ def get_district_classification(
                         batch_results = future.result(timeout=30)  # 30 second timeout per batch
                         classified_districts.extend(batch_results)
                         completed_batches += 1
-                        logger.info(f"📈 Progress: {completed_batches}/{len(batches)} batches completed ({len(classified_districts)} districts classified)")
+                        logger.info(f" Progress: {completed_batches}/{len(batches)} batches completed ({len(classified_districts)} districts classified)")
                     except Exception as e:
                         logger.error(f"Error processing batch {i+1}: {e}")
                         # Fall back to sequential processing for this batch
                         continue
             
-            logger.info(f"✅ Parallel processing completed: {len(classified_districts)} districts classified in {len(batches)} batches")
+            logger.info(f" Parallel processing completed: {len(classified_districts)} districts classified in {len(batches)} batches")
         else:
             # Sequential processing for smaller datasets
-            logger.info(f"📝 Using sequential processing for {len(results)} districts")
+            logger.info(f" Using sequential processing for {len(results)} districts")
             classified_districts = _classify_district_batch(results, breaks, higher_is_better)
         
         # Count classifications
@@ -8246,7 +8246,7 @@ def get_district_classification(
         if include_boundary_data:
             district_names_for_boundary = [d["district_name"] for d in classified_districts]
             boundary_data = get_district_boundary_data(district_names_for_boundary)
-            logger.info(f"🗺️ Retrieved boundary data for {len(boundary_data)} districts")
+            logger.info(f" Retrieved boundary data for {len(boundary_data)} districts")
         
         # Step 9: Generate comprehensive analysis
         total_districts = len(classified_districts)
@@ -8258,19 +8258,19 @@ def get_district_classification(
         std_value = _safe_float_conversion_classification(np.std(all_values))
         
         analysis_parts = [
-            f"🏥 **District Classification Analysis: {indicator_display_name}**\n",
+            f" **District Classification Analysis: {indicator_display_name}**\n",
             f"**Classification Method:** Jenks Natural Breaks Optimization",
             f"**Scope:** {total_districts} districts {scope_description}",
             f"**Year:** {year}",
             f"**Indicator Direction:** {'Higher values are better' if higher_is_better else 'Lower values are better'}\n",
             
-            f"**📊 Statistical Summary:**",
+            f"** Statistical Summary:**",
             f"• Mean: {mean_value:.2f}%",
             f"• Median: {median_value:.2f}%", 
             f"• Standard Deviation: {std_value:.2f}%",
             f"• Range: {min(all_values):.2f}% - {max(all_values):.2f}%\n",
             
-            f"**🎯 Classification Results:**"
+            f"** Classification Results:**"
         ]
         
         # Add class-by-class breakdown
@@ -8284,7 +8284,7 @@ def get_district_classification(
         
         # Add state-wise breakdown if multiple states
         if state_names and len(state_names) > 1:
-            analysis_parts.append(f"\n**🏛️ State-wise Distribution:**")
+            analysis_parts.append(f"\n** State-wise Distribution:**")
             state_stats = {}
             for district in classified_districts:
                 state = district["state_name"]
@@ -8301,7 +8301,7 @@ def get_district_classification(
                         analysis_parts.append(f"  - {class_name}: {counts[class_num]} districts")
         
         # Add insights based on distribution
-        analysis_parts.append(f"\n**💡 Key Insights:**")
+        analysis_parts.append(f"\n** Key Insights:**")
         
         if higher_is_better:
             high_performers = class_counts[4] + class_counts[3]
@@ -8359,9 +8359,9 @@ def get_district_classification(
             "response_type": "district_classification_analysis"
         }
         
-        logger.info(f"✅ District classification completed successfully")
-        logger.info(f"📊 Total districts classified: {total_districts}")
-        logger.info(f"🎯 Class distribution: {dict(class_counts)}")
+        logger.info(f" District classification completed successfully")
+        logger.info(f" Total districts classified: {total_districts}")
+        logger.info(f" Class distribution: {dict(class_counts)}")
         
         return result
         
@@ -8415,7 +8415,7 @@ def get_district_classification_change(
         cursor = conn.cursor()
         
         # Step 1: Match indicator name to database
-        logger.info(f"🔍 Matching indicator name for change analysis: {indicator_name}")
+        logger.info(f" Matching indicator name for change analysis: {indicator_name}")
         matched_indicator = match_indicator_name_to_database(indicator_name)
         
         if not matched_indicator:
@@ -8433,8 +8433,8 @@ def get_district_classification_change(
         # - If original indicator is "higher_is_better" (e.g., vaccination), then positive change is good
         change_higher_is_better = indicator_direction == "higher_is_better"
         
-        logger.info(f"🎯 Matched to: {indicator_display_name} (ID: {indicator_id})")
-        logger.info(f"📈 Change interpretation: {'Positive change is better' if change_higher_is_better else 'Negative change is better'}")
+        logger.info(f" Matched to: {indicator_display_name} (ID: {indicator_id})")
+        logger.info(f" Change interpretation: {'Positive change is better' if change_higher_is_better else 'Negative change is better'}")
         
         # Step 2: Build state filter condition
         state_filter_condition = ""
@@ -8446,7 +8446,7 @@ def get_district_classification_change(
             placeholders = ','.join(['%s'] * len(normalized_states))
             state_filter_condition = f"AND s.state_name IN ({placeholders})"
             state_filter_params = normalized_states
-            logger.info(f"🏛️ Filtering by states: {', '.join(normalized_states)}")
+            logger.info(f" Filtering by states: {', '.join(normalized_states)}")
         else:
             logger.info("🇮🇳 Analyzing all districts in India")
         
@@ -8477,7 +8477,7 @@ def get_district_classification_change(
                 "response_type": "error"
             }
         
-        logger.info(f"📊 Found change data for {len(results)} districts")
+        logger.info(f" Found change data for {len(results)} districts")
         
         # Step 4: Extract values and calculate Jenks breaks
         all_values = [row[3] for row in results if row[3] is not None]
@@ -8488,12 +8488,12 @@ def get_district_classification_change(
                 "response_type": "error"
             }
         
-        logger.info(f"📈 Calculating Jenks natural breaks for {len(all_values)} change values")
-        logger.info(f"📈 Change range: {min(all_values):.2f} - {max(all_values):.2f}")
+        logger.info(f" Calculating Jenks natural breaks for {len(all_values)} change values")
+        logger.info(f" Change range: {min(all_values):.2f} - {max(all_values):.2f}")
         
         # Calculate Jenks breaks for 4 classes
         breaks = jenks_breaks(all_values, 4)
-        logger.info(f"🎯 Jenks breaks: {[f'{b:.2f}' for b in breaks]}")
+        logger.info(f" Jenks breaks: {[f'{b:.2f}' for b in breaks]}")
         
         # Step 5: Classify each district (OPTIMIZED WITH PARALLEL PROCESSING)
         classified_districts = []
@@ -8503,13 +8503,13 @@ def get_district_classification_change(
         if len(results) > 50:  # Lower threshold for parallel processing
             import os
             max_workers = min(os.cpu_count() or 4, 8)  # Use up to 8 cores
-            logger.info(f"🚀 Using AGGRESSIVE parallel processing: {max_workers} workers for {len(results)} districts")
+            logger.info(f" Using AGGRESSIVE parallel processing: {max_workers} workers for {len(results)} districts")
             
             # Optimize batch size for better load distribution
             optimal_batch_size = max(20, len(results) // (max_workers * 2))  # Smaller batches for better parallelism
             batches = [results[i:i + optimal_batch_size] for i in range(0, len(results), optimal_batch_size)]
             
-            logger.info(f"📦 Created {len(batches)} optimized batches of ~{optimal_batch_size} districts each")
+            logger.info(f" Created {len(batches)} optimized batches of ~{optimal_batch_size} districts each")
             
             # Use ThreadPoolExecutor for parallel processing
             from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -8528,9 +8528,9 @@ def get_district_classification_change(
                     try:
                         batch_result = future.result()
                         batch_results.append((batch_num, batch_result))
-                        logger.info(f"✅ Batch {batch_num + 1}/{len(batches)} completed: {len(batch_result)} districts")
+                        logger.info(f" Batch {batch_num + 1}/{len(batches)} completed: {len(batch_result)} districts")
                     except Exception as e:
-                        logger.error(f"❌ Batch {batch_num + 1} failed: {e}")
+                        logger.error(f" Batch {batch_num + 1} failed: {e}")
                         batch_results.append((batch_num, []))
             
             # Sort results by batch number and flatten
@@ -8538,10 +8538,10 @@ def get_district_classification_change(
             for _, batch_result in batch_results:
                 classified_districts.extend(batch_result)
                 
-            logger.info(f"🎯 Parallel processing completed: {len(classified_districts)} districts classified")
+            logger.info(f" Parallel processing completed: {len(classified_districts)} districts classified")
         else:
             # Sequential processing for smaller datasets
-            logger.info(f"🔄 Using sequential processing for {len(results)} districts")
+            logger.info(f" Using sequential processing for {len(results)} districts")
             for row in results:
                 district_id, district_name, state_name, change_value = row
                 
@@ -8609,7 +8609,7 @@ def get_district_classification_change(
         if include_boundary_data:
             district_names_for_boundary = [d["district_name"] for d in classified_districts]
             boundary_data = get_district_boundary_data(district_names_for_boundary)
-            logger.info(f"🗺️ Retrieved boundary data for {len(boundary_data)} districts")
+            logger.info(f" Retrieved boundary data for {len(boundary_data)} districts")
         
         # Step 9: Generate comprehensive analysis
         total_districts = len(classified_districts)
@@ -8621,19 +8621,19 @@ def get_district_classification_change(
         std_value = _safe_float_conversion_classification(np.std(all_values))
         
         analysis_parts = [
-            f"📈 **District Change Classification Analysis: {indicator_display_name}**\n",
+            f" **District Change Classification Analysis: {indicator_display_name}**\n",
             f"**Classification Method:** Jenks Natural Breaks Optimization",
             f"**Analysis Type:** Prevalence Change (2021 - 2016)",
             f"**Scope:** {total_districts} districts {scope_description}",
             f"**Change Direction:** {'Positive change is better' if change_higher_is_better else 'Negative change is better'}\n",
             
-            f"**📊 Statistical Summary:**",
+            f"** Statistical Summary:**",
             f"• Mean Change: {mean_value:.2f} percentage points",
             f"• Median Change: {median_value:.2f} percentage points", 
             f"• Standard Deviation: {std_value:.2f} percentage points",
             f"• Range: {min(all_values):.2f} to {max(all_values):.2f} percentage points\n",
             
-            f"**🎯 Classification Results:**"
+            f"** Classification Results:**"
         ]
         
         # Add class-by-class breakdown
@@ -8647,7 +8647,7 @@ def get_district_classification_change(
         
         # Add state-wise breakdown if multiple states
         if state_names and len(state_names) > 1:
-            analysis_parts.append(f"\n**🏛️ State-wise Distribution:**")
+            analysis_parts.append(f"\n** State-wise Distribution:**")
             state_stats = {}
             for district in classified_districts:
                 state = district["state_name"]
@@ -8664,7 +8664,7 @@ def get_district_classification_change(
                         analysis_parts.append(f"  - {class_name}: {counts[class_num]} districts")
         
         # Add insights based on distribution
-        analysis_parts.append(f"\n**💡 Key Insights:**")
+        analysis_parts.append(f"\n** Key Insights:**")
         
         if change_higher_is_better:
             improving_districts = class_counts[4] + class_counts[3]
@@ -8723,9 +8723,9 @@ def get_district_classification_change(
             "response_type": "district_classification_change_analysis"
         }
         
-        logger.info(f"✅ District change classification completed successfully")
-        logger.info(f"📊 Total districts classified: {total_districts}")
-        logger.info(f"🎯 Class distribution: {dict(class_counts)}")
+        logger.info(f" District change classification completed successfully")
+        logger.info(f" Total districts classified: {total_districts}")
+        logger.info(f" Class distribution: {dict(class_counts)}")
         
         return result
         
@@ -8741,4 +8741,5 @@ def get_district_classification_change(
         if 'cursor' in locals():
             cursor.close()
         if 'conn' in locals():
+
             conn.close()
