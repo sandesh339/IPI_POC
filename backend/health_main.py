@@ -296,9 +296,9 @@ async def chatbot(request: ChatbotRequest):
                 matched_indicator = match_indicator_name_to_database(arguments["indicator_name"])
                 if matched_indicator:
                     indicator_ids_to_use = [matched_indicator["indicator_id"]]
-                    print(f"🎯 Matched '{arguments['indicator_name']}' to '{matched_indicator['indicator_name']}' for {function_name}")
+                    print(f" Matched '{arguments['indicator_name']}' to '{matched_indicator['indicator_name']}' for {function_name}")
                 else:
-                    print(f"❌ Could not match indicator name '{arguments['indicator_name']}' for {function_name}")
+                    print(f" Could not match indicator name '{arguments['indicator_name']}' for {function_name}")
 
             if function_name == "get_district_health_data":
                 # Handle both single and multiple districts/indicators
@@ -321,9 +321,9 @@ async def chatbot(request: ChatbotRequest):
                         matched_indicator = match_indicator_name_to_database(indicator_name)
                         if matched_indicator:
                             indicator_ids_list.append(matched_indicator["indicator_id"])
-                            print(f"🎯 Matched '{indicator_name}' to '{matched_indicator['indicator_name']}' for district health analysis")
+                            print(f" Matched '{indicator_name}' to '{matched_indicator['indicator_name']}' for district health analysis")
                         else:
-                            print(f"❌ Could not match indicator name '{indicator_name}' for district health analysis")
+                            print(f" Could not match indicator name '{indicator_name}' for district health analysis")
                     if indicator_ids_list:
                         indicator_ids_to_use = indicator_ids_list
                 elif arguments.get("indicator_name"):
@@ -331,9 +331,9 @@ async def chatbot(request: ChatbotRequest):
                     matched_indicator = match_indicator_name_to_database(arguments["indicator_name"])
                     if matched_indicator:
                         indicator_ids_to_use = [matched_indicator["indicator_id"]]
-                        print(f"🎯 Matched '{arguments['indicator_name']}' to '{matched_indicator['indicator_name']}' for district health analysis")
+                        print(f" Matched '{arguments['indicator_name']}' to '{matched_indicator['indicator_name']}' for district health analysis")
                     else:
-                        print(f"❌ Could not match indicator name '{arguments['indicator_name']}' for district health analysis")
+                        print(f" Could not match indicator name '{arguments['indicator_name']}' for district health analysis")
                 
                 return get_district_health_data(
                     district_names=district_names,
@@ -363,9 +363,9 @@ async def chatbot(request: ChatbotRequest):
                         matched_indicator = match_indicator_name_to_database(indicator_name)
                         if matched_indicator:
                             indicator_ids_list.append(matched_indicator["indicator_id"])
-                            print(f"🎯 Matched '{indicator_name}' to '{matched_indicator['indicator_name']}' for border districts analysis")
+                            print(f" Matched '{indicator_name}' to '{matched_indicator['indicator_name']}' for border districts analysis")
                         else:
-                            print(f"❌ Could not match indicator name '{indicator_name}' for border districts analysis")
+                            print(f" Could not match indicator name '{indicator_name}' for border districts analysis")
                     if indicator_ids_list:
                         indicator_ids_to_use = indicator_ids_list
                 elif arguments.get("indicator_name"):
@@ -373,9 +373,9 @@ async def chatbot(request: ChatbotRequest):
                     matched_indicator = match_indicator_name_to_database(arguments["indicator_name"])
                     if matched_indicator:
                         indicator_ids_to_use = [matched_indicator["indicator_id"]]
-                        print(f"🎯 Matched '{arguments['indicator_name']}' to '{matched_indicator['indicator_name']}' for border districts analysis")
+                        print(f" Matched '{arguments['indicator_name']}' to '{matched_indicator['indicator_name']}' for border districts analysis")
                     else:
-                        print(f"❌ Could not match indicator name '{arguments['indicator_name']}' for border districts analysis")
+                        print(f" Could not match indicator name '{arguments['indicator_name']}' for border districts analysis")
 
                 return get_border_districts(
                     state1=arguments["state1"],
@@ -431,7 +431,7 @@ async def chatbot(request: ChatbotRequest):
                     return {"error": f"Function execution failed: {str(e)}"}
                 
             elif function_name == "get_districts_by_constraints":
-                print(f"🎯 get_districts_by_constraints called with:")
+                print(f" get_districts_by_constraints called with:")
                 print(f"  constraints: {arguments.get('constraints', [])}")
                 print(f"  constraint_text: {arguments.get('constraint_text', 'None')}")
                 print(f"  year: {arguments.get('year', 2021)}")
@@ -445,7 +445,7 @@ async def chatbot(request: ChatbotRequest):
                     # If no structured constraints but constraint_text is provided, parse it
                     if not constraints and arguments.get("constraint_text"):
                         constraints = parse_constraint_text(arguments["constraint_text"])
-                        print(f"🔍 Parsed constraint_text into {len(constraints)} constraints")
+                        print(f" Parsed constraint_text into {len(constraints)} constraints")
                     
                     if not constraints:
                         return {"error": "Either 'constraints' array or 'constraint_text' must be provided"}
@@ -458,7 +458,7 @@ async def chatbot(request: ChatbotRequest):
                         include_boundary_data=arguments.get("include_boundary_data", True)
                     )
                     
-                    print(f"📊 get_districts_by_constraints result:")
+                    print(f" get_districts_by_constraints result:")
                     print(f"  result type: {type(result)}")
                     if isinstance(result, dict):
                         print(f"  result keys: {list(result.keys())}")
@@ -470,7 +470,7 @@ async def chatbot(request: ChatbotRequest):
                     return result
                     
                 except Exception as e:
-                    print(f"❌ ERROR in get_districts_by_constraints:")
+                    print(f" ERROR in get_districts_by_constraints:")
                     print(f"  Error type: {type(e)}")
                     print(f"  Error message: {str(e)}")
                     import traceback
@@ -478,7 +478,7 @@ async def chatbot(request: ChatbotRequest):
                     return {"error": f"Function execution failed: {str(e)}"}
 
             elif function_name == "get_top_bottom_districts":
-                print(f"🏆 get_top_bottom_districts called with:")
+                print(f" get_top_bottom_districts called with:")
                 print(f"  indicator_names: {arguments.get('indicator_names', 'None')}")
                 print(f"  indicator_name: {arguments.get('indicator_name', 'None')}")
                 print(f"  n_districts: {arguments.get('n_districts', 10)}")
@@ -509,7 +509,7 @@ async def chatbot(request: ChatbotRequest):
                     return result
                     
                 except Exception as e:
-                    print(f"❌ ERROR in get_top_bottom_districts:")
+                    print(f" ERROR in get_top_bottom_districts:")
                     print(f"  Error type: {type(e)}")
                     print(f"  Error message: {str(e)}")
                     import traceback
@@ -517,7 +517,7 @@ async def chatbot(request: ChatbotRequest):
                     return {"error": f"Function execution failed: {str(e)}"}
 
             elif function_name == "get_indicator_change_analysis":
-                print(f"📈 get_indicator_change_analysis called with:")
+                print(f" get_indicator_change_analysis called with:")
                 print(f"  indicator_name: {arguments.get('indicator_name', 'None')}")
                 print(f"  analysis_level: {arguments.get('analysis_level', 'country')}")
                 print(f"  location_name: {arguments.get('location_name', 'None')}")
@@ -530,7 +530,7 @@ async def chatbot(request: ChatbotRequest):
                         include_boundary_data=arguments.get("include_boundary_data", True)
                     )
                     
-                    print(f"📊 get_indicator_change_analysis result SUCCESS:")
+                    print(f" get_indicator_change_analysis result SUCCESS:")
                     print(f"  result type: {type(result)}")
                     if isinstance(result, dict):
                         print(f"  result keys: {list(result.keys())}")
@@ -542,7 +542,7 @@ async def chatbot(request: ChatbotRequest):
                     return result
                     
                 except Exception as e:
-                    print(f"❌ ERROR in get_indicator_change_analysis:")
+                    print(f" ERROR in get_indicator_change_analysis:")
                     print(f"  Error type: {type(e)}")
                     print(f"  Error message: {str(e)}")
                     import traceback
@@ -550,7 +550,7 @@ async def chatbot(request: ChatbotRequest):
                     return {"error": f"Function execution failed: {str(e)}"}
 
             elif function_name == "get_district_performance_comparison":
-                print(f"🆚 get_district_performance_comparison called with:")
+                print(f" get_district_performance_comparison called with:")
                 print(f"  district_names: {arguments.get('district_names', 'None')}")
                 print(f"  indicator_names: {arguments.get('indicator_names', 'None')}")
                 print(f"  comparison_type: {arguments.get('comparison_type', 'national')}")
@@ -565,7 +565,7 @@ async def chatbot(request: ChatbotRequest):
                         include_boundary_data=arguments.get("include_boundary_data", True)
                     )
                     
-                    print(f"📊 get_district_performance_comparison result SUCCESS:")
+                    print(f" get_district_performance_comparison result SUCCESS:")
                     print(f"  result type: {type(result)}")
                     if isinstance(result, dict):
                         print(f"  result keys: {list(result.keys())}")
@@ -579,7 +579,7 @@ async def chatbot(request: ChatbotRequest):
                     return result
                     
                 except Exception as e:
-                    print(f"❌ ERROR in get_district_performance_comparison:")
+                    print(f" ERROR in get_district_performance_comparison:")
                     print(f"  Error type: {type(e)}")
                     print(f"  Error message: {str(e)}")
                     import traceback
@@ -587,7 +587,7 @@ async def chatbot(request: ChatbotRequest):
                     return {"error": f"Function execution failed: {str(e)}"}
 
             elif function_name == "get_multi_indicator_performance":
-                print(f"📊 get_multi_indicator_performance called with:")
+                print(f" get_multi_indicator_performance called with:")
                 print(f"  district_names: {arguments.get('district_names', 'None')}")
                 print(f"  category_name: {arguments.get('category_name', 'None')}")
                 print(f"  indicator_names: {arguments.get('indicator_names', 'None')}")
@@ -606,7 +606,7 @@ async def chatbot(request: ChatbotRequest):
                         include_boundary_data=arguments.get("include_boundary_data", True)
                     )
                     
-                    print(f"📊 get_multi_indicator_performance result SUCCESS:")
+                    print(f" get_multi_indicator_performance result SUCCESS:")
                     print(f"  result type: {type(result)}")
                     if isinstance(result, dict):
                         print(f"  result keys: {list(result.keys())}")
@@ -621,7 +621,7 @@ async def chatbot(request: ChatbotRequest):
                     return result
                     
                 except Exception as e:
-                    print(f"❌ ERROR in get_multi_indicator_performance:")
+                    print(f" ERROR in get_multi_indicator_performance:")
                     print(f"  Error type: {type(e)}")
                     print(f"  Error message: {str(e)}")
                     import traceback
@@ -629,7 +629,7 @@ async def chatbot(request: ChatbotRequest):
                     return {"error": f"Function execution failed: {str(e)}"}
 
             elif function_name == "get_state_multi_indicator_performance":
-                print(f"🏛️ get_state_multi_indicator_performance called with:")
+                print(f" get_state_multi_indicator_performance called with:")
                 print(f"  state_names: {arguments.get('state_names', 'None')}")
                 print(f"  category_name: {arguments.get('category_name', 'None')}")
                 print(f"  indicator_names: {arguments.get('indicator_names', 'None')}")
@@ -649,7 +649,7 @@ async def chatbot(request: ChatbotRequest):
                         query_hint=arguments.get("query_hint")
                     )
                     
-                    print(f"📊 get_state_multi_indicator_performance result SUCCESS:")
+                    print(f" get_state_multi_indicator_performance result SUCCESS:")
                     print(f"  result type: {type(result)}")
                     if isinstance(result, dict):
                         print(f"  result keys: {list(result.keys())}")
@@ -665,7 +665,7 @@ async def chatbot(request: ChatbotRequest):
                     return result
                     
                 except Exception as e:
-                    print(f"❌ ERROR in get_state_multi_indicator_performance:")
+                    print(f" ERROR in get_state_multi_indicator_performance:")
                     print(f"  Error type: {type(e)}")
                     print(f"  Error message: {str(e)}")
                     import traceback
@@ -673,7 +673,7 @@ async def chatbot(request: ChatbotRequest):
                     return {"error": f"Function execution failed: {str(e)}"}
 
             elif function_name == "get_district_similarity_analysis":
-                print(f"🔍 get_district_similarity_analysis called with:")
+                print(f" get_district_similarity_analysis called with:")
                 print(f"  indicator_names: {arguments.get('indicator_names', 'None')}")
                 print(f"  category_name: {arguments.get('category_name', 'None')}")
                 print(f"  analysis_type: {arguments.get('analysis_type', 'similar')}")
@@ -692,7 +692,7 @@ async def chatbot(request: ChatbotRequest):
                         include_boundary_data=arguments.get("include_boundary_data", True)
                     )
                     
-                    print(f"📊 get_district_similarity_analysis result SUCCESS:")
+                    print(f" get_district_similarity_analysis result SUCCESS:")
                     print(f"  result type: {type(result)}")
                     if isinstance(result, dict):
                         print(f"  result keys: {list(result.keys())}")
@@ -707,7 +707,7 @@ async def chatbot(request: ChatbotRequest):
                     return result
                     
                 except Exception as e:
-                    print(f"❌ ERROR in get_district_similarity_analysis:")
+                    print(f" ERROR in get_district_similarity_analysis:")
                     print(f"  Error type: {type(e)}")
                     print(f"  Error message: {str(e)}")
                     import traceback
@@ -715,7 +715,7 @@ async def chatbot(request: ChatbotRequest):
                     return {"error": f"Function execution failed: {str(e)}"}
 
             elif function_name == "get_district_classification":
-                print(f"📊 get_district_classification called with:")
+                print(f" get_district_classification called with:")
                 print(f"  indicator_name: {arguments.get('indicator_name', 'None')}")
                 print(f"  state_names: {arguments.get('state_names', 'None')}")
                 print(f"  year: {arguments.get('year', 2021)}")
@@ -741,7 +741,7 @@ async def chatbot(request: ChatbotRequest):
                                 "response_type": "error"
                             }
                     
-                    print(f"📊 get_district_classification result SUCCESS:")
+                    print(f" get_district_classification result SUCCESS:")
                     print(f"  result type: {type(result)}")
                     if isinstance(result, dict):
                         print(f"  result keys: {list(result.keys())}")
@@ -755,7 +755,7 @@ async def chatbot(request: ChatbotRequest):
                     return result
                     
                 except Exception as e:
-                    print(f"❌ ERROR in get_district_classification:")
+                    print(f" ERROR in get_district_classification:")
                     print(f"  Error type: {type(e)}")
                     print(f"  Error message: {str(e)}")
                     import traceback
@@ -763,7 +763,7 @@ async def chatbot(request: ChatbotRequest):
                     return {"error": f"Function execution failed: {str(e)}"}
 
             elif function_name == "get_district_classification_change":
-                print(f"📈 get_district_classification_change called with:")
+                print(f" get_district_classification_change called with:")
                 print(f"  indicator_name: {arguments.get('indicator_name', 'None')}")
                 print(f"  state_names: {arguments.get('state_names', 'None')}")
                 
@@ -786,7 +786,7 @@ async def chatbot(request: ChatbotRequest):
                                 "response_type": "error"
                             }
                     
-                    print(f"📈 get_district_classification_change result SUCCESS:")
+                    print(f" get_district_classification_change result SUCCESS:")
                     print(f"  result type: {type(result)}")
                     if isinstance(result, dict):
                         print(f"  result keys: {list(result.keys())}")
@@ -799,7 +799,7 @@ async def chatbot(request: ChatbotRequest):
                     return result
                     
                 except Exception as e:
-                    print(f"❌ ERROR in get_district_classification_change:")
+                    print(f" ERROR in get_district_classification_change:")
                     print(f"  Error type: {type(e)}")
                     print(f"  Error message: {str(e)}")
                     import traceback
@@ -1820,7 +1820,7 @@ Perfect For:
             # If we have multiple individual district calls, treat as multi-district
             if len(individual_district_calls) > 1:
                 map_type = "multi_district_comparison"
-                print(f"🔄 Detected {len(individual_district_calls)} individual district calls, converting to multi_district_comparison")
+                print(f" Detected {len(individual_district_calls)} individual district calls, converting to multi_district_comparison")
 
             # Return comprehensive response
             base_response = {
@@ -1845,7 +1845,7 @@ Perfect For:
                             base_response[key] = value
             elif len(individual_district_calls) > 1:
                 # Multiple individual district calls - merge them into multi-district structure
-                print(f"🔄 Merging {len(individual_district_calls)} individual district calls into multi-district structure")
+                print(f" Merging {len(individual_district_calls)} individual district calls into multi-district structure")
                 merged_districts = []
                 all_indicators = set()
                 merged_boundary = []
@@ -1881,30 +1881,30 @@ Perfect For:
             
             # Log final response for get_district_health_data calls
             if any(fc["function"] == "get_district_health_data" for fc in base_response.get("function_calls", [])):
-                print("🚀 FINAL BACKEND RESPONSE for get_district_health_data:")
-                print(f"  📋 Response keys: {list(base_response.keys())}")
-                print(f"  🗺️ map_type: {base_response.get('map_type')}")
-                print(f"  📊 has chart_data: {bool(base_response.get('chart_data'))}")
-                print(f"  🌍 boundary count: {len(base_response.get('boundary', []))}")
-                print(f"  🏙️ districts: {base_response.get('districts', 'N/A')}")
-                print(f"  🏙️ district_name: {base_response.get('district_name', 'N/A')}")
-                print(f"  📈 total_districts: {base_response.get('total_districts', 'N/A')}")
-                print(f"  📈 total_indicators: {base_response.get('total_indicators', 'N/A')}")
-                print(f"  🔧 function_calls: {[fc['function'] for fc in base_response.get('function_calls', [])]}")
+                print(" FINAL BACKEND RESPONSE for get_district_health_data:")
+                print(f"   Response keys: {list(base_response.keys())}")
+                print(f"   map_type: {base_response.get('map_type')}")
+                print(f"   has chart_data: {bool(base_response.get('chart_data'))}")
+                print(f"   boundary count: {len(base_response.get('boundary', []))}")
+                print(f"   districts: {base_response.get('districts', 'N/A')}")
+                print(f"   district_name: {base_response.get('district_name', 'N/A')}")
+                print(f"   total_districts: {base_response.get('total_districts', 'N/A')}")
+                print(f"   total_indicators: {base_response.get('total_indicators', 'N/A')}")
+                print(f"   function_calls: {[fc['function'] for fc in base_response.get('function_calls', [])]}")
                 
                 if base_response.get('districts'):
-                    print(f"  📍 Districts data: {len(base_response['districts'])} districts")
+                    print(f"   Districts data: {len(base_response['districts'])} districts")
                     for i, dist in enumerate(base_response['districts'][:2]):  # Show first 2
                         print(f"    District {i+1}: {dist.get('district_name')} ({dist.get('state_name')}) - {len(dist.get('indicators', []))} indicators")
                 
                 if base_response.get('chart_data'):
                     chart_data = base_response['chart_data']
                     if isinstance(chart_data, dict):
-                        print(f"  📊 Chart data type: {chart_data.get('type', 'unknown')}")
-                        print(f"  📊 Chart title: {chart_data.get('title', 'N/A')}")
-                        print(f"  📊 Chart datasets: {len(chart_data.get('datasets', []))}")
+                        print(f"   Chart data type: {chart_data.get('type', 'unknown')}")
+                        print(f"   Chart title: {chart_data.get('title', 'N/A')}")
+                        print(f"   Chart datasets: {len(chart_data.get('datasets', []))}")
                     else:
-                        print(f"  📊 Chart data: {type(chart_data)}")
+                        print(f"   Chart data: {type(chart_data)}")
             
             return base_response
 
@@ -2150,3 +2150,4 @@ async def save_feedback(request: ReactionRequest):
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
+
