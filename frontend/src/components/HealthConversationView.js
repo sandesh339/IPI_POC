@@ -2207,7 +2207,7 @@ export default function HealthConversationView({ onNavigateToHome }) {
           color: "#2E7D32",
           fontWeight: "400"
         }}>
-          Conversational Analytics on Population Health and Social Determinants of Health Indicators for Districts in India
+          Conversational and Mapping Analytics on Population Health and Social Determinants of Health Indicators for Districts in India
         </p>
         {/* Home Button */}
         {onNavigateToHome && (
@@ -3518,6 +3518,7 @@ export default function HealthConversationView({ onNavigateToHome }) {
     </div>
   );
 }
+
 
 
 
