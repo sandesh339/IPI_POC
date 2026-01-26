@@ -2865,7 +2865,7 @@ export default function HealthConversationView({ onNavigateToHome }) {
               marginBottom: "12px",
               fontSize: "clamp(13px, 2.8vw, 15px)"
             }}>
-              💡 Here are some example questions you can ask our chatbot:
+              💡 Here are some example questions you can ask our chatbot (Click on the box for automatic query completion):
             </div>
             
             <div style={{
@@ -3518,6 +3518,7 @@ export default function HealthConversationView({ onNavigateToHome }) {
     </div>
   );
 }
+
 
 
 
