@@ -66,7 +66,7 @@ export default function AboutPage({ onNavigateToHome }) {
         <section className="examples-section">
           <h3 className="section-title">Example Queries</h3>
           <p className="examples-description">
-            Here are some example questions you can ask our AI-powered health analytics chatbot (Click on the box for automatic query completion):
+            Here are some example questions you can ask our AI-powered health analytics chatbot:
           </p>
           <div className="examples-grid">
             <div className="example-card">
@@ -157,6 +157,7 @@ export default function AboutPage({ onNavigateToHome }) {
     </div>
   );
 }
+
 
 
 
