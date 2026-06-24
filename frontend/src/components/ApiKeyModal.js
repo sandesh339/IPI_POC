@@ -1,12 +1,8 @@
 import React, { useState } from "react";
 import "./ApiKeyModal.css";
 
-// ─── Replace this with your actual video embed URL ───────────────────────────
-// YouTube  → https://www.youtube.com/embed/<VIDEO_ID>
-// Vimeo    → https://player.vimeo.com/video/<VIDEO_ID>
-// Loom     → https://www.loom.com/embed/<VIDEO_ID>
-const DEMO_VIDEO_URL = "https://www.youtube.com/embed/YOUR_VIDEO_ID";
-// ─────────────────────────────────────────────────────────────────────────────
+
+const DEMO_VIDEO_URL = "https://drive.google.com/file/d/18MG6IR1qOjre7jN3fAYLpGMBflcW2qvt/preview";
 
 export default function ApiKeyModal({ onKeySubmit }) {
   const [inputKey, setInputKey]   = useState("");
