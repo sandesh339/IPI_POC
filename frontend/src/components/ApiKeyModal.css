@@ -63,6 +63,78 @@
   font-family: 'Segoe UI', sans-serif;
 }
 
+/* ── Demo Video Section ─────────────────────────────────── */
+
+.demo-video-section {
+  margin-bottom: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1.5px solid #e5e7eb;
+  background: #f9fafb;
+}
+
+.demo-video-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 14px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #1e3a8a;
+  text-align: left;
+  transition: background 0.15s;
+}
+
+.demo-video-toggle:hover {
+  background: #eff6ff;
+}
+
+.demo-play-icon {
+  font-size: 1rem;
+  color: #2563eb;
+}
+
+.demo-badge {
+  margin-left: auto;
+  background: #dbeafe;
+  color: #1d4ed8;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 20px;
+  letter-spacing: 0.03em;
+}
+
+.demo-chevron {
+  font-size: 0.7rem;
+  color: #6b7280;
+  margin-left: 4px;
+}
+
+.demo-video-player {
+  border-top: 1.5px solid #e5e7eb;
+  background: #000;
+  animation: expandVideo 0.2s ease;
+}
+
+@keyframes expandVideo {
+  from { opacity: 0; max-height: 0; }
+  to   { opacity: 1; max-height: 400px; }
+}
+
+.demo-video-player iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  display: block;
+  border: none;
+}
+
+/* ── Input group ──────────────────────────────────────── */
 /* Input group */
 .api-key-input-group {
   position: relative;
