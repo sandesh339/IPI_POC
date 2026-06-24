@@ -13,10 +13,8 @@ import openai
 from openai import OpenAI
 from concurrent.futures import ThreadPoolExecutor
 import math
-# Initialize OpenAI client for indicator matching
-client = OpenAI (
-    api_key=os.getenv("OPEN_API_KEY")
-)
+# Initialized per-request from health_main.py using the user-provided API key
+client = None
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -6240,7 +6238,7 @@ def match_category_with_openai(user_category, available_categories):
     try:
         
         
-        client = OpenAI(api_key="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")
+        # Uses the module-level client set per-request from health_main.py
         
         categories_text = "\n".join([f"{cat[0]}: {cat[1]}" for cat in available_categories])
         

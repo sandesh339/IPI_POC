@@ -1,0 +1,229 @@
+/* API Key Modal */
+
+.api-key-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 20, 50, 0.75);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.api-key-modal {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 40px 36px 32px;
+  width: 100%;
+  max-width: 460px;
+  box-shadow: 0 24px 60px rgba(30, 58, 138, 0.25), 0 4px 16px rgba(0,0,0,0.1);
+  animation: slideUp 0.25s ease;
+  position: relative;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+/* Header */
+.api-key-modal-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #1e3a8a, #2563eb);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  font-size: 22px;
+}
+
+.api-key-modal h2 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 6px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.api-key-modal p {
+  font-size: 0.88rem;
+  color: #6b7280;
+  margin: 0 0 24px;
+  line-height: 1.55;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Input group */
+.api-key-input-group {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.api-key-input-group label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 7px;
+  font-family: 'Segoe UI', sans-serif;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.api-key-input-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid #d1d5db;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+  background: #f9fafb;
+}
+
+.api-key-input-wrapper:focus-within {
+  border-color: #2563eb;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.api-key-input-wrapper input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 12px 14px;
+  font-size: 0.9rem;
+  font-family: 'Courier New', monospace;
+  color: #111827;
+  letter-spacing: 0.04em;
+}
+
+.api-key-input-wrapper input::placeholder {
+  font-family: 'Segoe UI', sans-serif;
+  color: #9ca3af;
+  letter-spacing: normal;
+}
+
+.api-key-toggle-btn {
+  background: none;
+  border: none;
+  padding: 0 14px;
+  cursor: pointer;
+  color: #6b7280;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  transition: color 0.15s;
+}
+
+.api-key-toggle-btn:hover {
+  color: #2563eb;
+}
+
+/* Error */
+.api-key-error {
+  font-size: 0.8rem;
+  color: #dc2626;
+  margin: 6px 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Hint */
+.api-key-hint {
+  font-size: 0.78rem;
+  color: #9ca3af;
+  margin: 8px 0 20px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.api-key-hint a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.api-key-hint a:hover {
+  text-decoration: underline;
+}
+
+/* Session notice */
+.api-key-session-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 22px;
+  font-size: 0.8rem;
+  color: #1e40af;
+  line-height: 1.45;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.api-key-session-notice span:first-child {
+  font-size: 1rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* Submit button */
+.api-key-submit-btn {
+  width: 100%;
+  padding: 13px;
+  background: linear-gradient(135deg, #1e3a8a, #2563eb);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: 'Segoe UI', sans-serif;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+  letter-spacing: 0.01em;
+}
+
+.api-key-submit-btn:hover:not(:disabled) {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
+
+.api-key-submit-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Change key button (compact inline) */
+.api-key-change-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: 1px solid rgba(255,255,255,0.35);
+  border-radius: 6px;
+  color: rgba(255,255,255,0.85);
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.api-key-change-btn:hover {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+}

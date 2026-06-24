@@ -184,10 +184,7 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-client = OpenAI(
-    api_key=os.getenv("OPEN_API_KEY")
-
-)
+client = None  # Initialized per-request from user-provided API key
 
 # Session storage
 session_store = {
@@ -196,11 +193,11 @@ session_store = {
 
 class ChatbotRequest(BaseModel):
     query: str
+    api_key: str  # Required: user-provided OpenAI API key
     history: list[dict] | None = None
     timestamp: int | None = None  # Accept timestamp for cache busting
-    
+
     class Config:
-        # Allow extra fields to be ignored instead of causing validation errors
         extra = "ignore"
 
 class SaveVisualizationRequest(BaseModel):
@@ -267,6 +264,20 @@ def home():
 @app.post("/chatbot/")
 async def chatbot(request: ChatbotRequest):
     try:
+        # Build a per-request OpenAI client from the user-supplied key
+        if not request.api_key or not request.api_key.strip():
+            raise HTTPException(status_code=400, detail="OpenAI API key is required.")
+
+        request_client = OpenAI(api_key=request.api_key.strip())
+
+        # Expose the per-request client to health_utils so its functions use it too
+        import health_utils as _hu
+        _hu.client = request_client
+
+        # Make it available as a module-level name for calls within this handler
+        global client
+        client = request_client
+
         # Test database connection
         try:
             conn = get_db_connection()

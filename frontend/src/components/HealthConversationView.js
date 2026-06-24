@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import "../components/SaveVisualization.css";
+import ApiKeyModal from "./ApiKeyModal";
 
 // Import visualization components
 import RadiusAnalysis from "./RadiusAnalysis";
@@ -24,6 +25,19 @@ import {
 } from "../utils/saveUtils";
 
 export default function HealthConversationView({ onNavigateToHome }) {
+  // API key — stored in sessionStorage so it lasts the browser session only
+  const [apiKey, setApiKey] = useState(() => sessionStorage.getItem("ipi_openai_key") || "");
+
+  const handleApiKeySubmit = (key) => {
+    sessionStorage.setItem("ipi_openai_key", key);
+    setApiKey(key);
+  };
+
+  const handleChangeApiKey = () => {
+    sessionStorage.removeItem("ipi_openai_key");
+    setApiKey("");
+  };
+
   const [query, setQuery] = useState("");
   
   // Initialize messages from localStorage or empty array
@@ -203,6 +217,7 @@ export default function HealthConversationView({ onNavigateToHome }) {
         },
         body: JSON.stringify({ 
           query,
+          api_key: apiKey,
           history: messages.map((msg) => ({
             role: msg.type === "user" ? "user" : "assistant",
             content: msg.text,
@@ -362,7 +377,7 @@ export default function HealthConversationView({ onNavigateToHome }) {
       const res = await fetch("https://api.openai.com/v1/audio/transcriptions", {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+          Authorization: `Bearer ${apiKey}`,
         },
         body: formData,
       });
@@ -2179,6 +2194,11 @@ export default function HealthConversationView({ onNavigateToHome }) {
     );
   };
 
+  // Show API key modal if no key is set for this session
+  if (!apiKey) {
+    return <ApiKeyModal onKeySubmit={handleApiKeySubmit} />;
+  }
+
   return (
     <div className="app-container">
       {/* Enhanced Header */}
@@ -2286,6 +2306,35 @@ export default function HealthConversationView({ onNavigateToHome }) {
             <span>Clear Chat</span>
           </button>
         )}
+
+        {/* Change API Key button */}
+        <button
+          onClick={handleChangeApiKey}
+          className="api-key-change-btn"
+          style={{
+            position: "absolute",
+            top: "50%",
+            right: "110px",
+            transform: "translateY(-50%)",
+            background: "rgba(46,125,50,0.12)",
+            border: "1px solid rgba(46,125,50,0.3)",
+            borderRadius: "8px",
+            color: "#2E7D32",
+            fontSize: "0.75rem",
+            padding: "5px 11px",
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            gap: "5px",
+            fontFamily: "'Segoe UI', sans-serif",
+            fontWeight: "600",
+            zIndex: 10,
+            transition: "background 0.15s"
+          }}
+          title="Change your OpenAI API key"
+        >
+          🔑 Change Key
+        </button>
 
         {/* Enhanced User Avatar */}
         <div style={{
